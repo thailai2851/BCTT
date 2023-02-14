@@ -1,0 +1,32 @@
+﻿@{
+    FormCosisContext context = new FormCosisContext();
+    List<NganhKinhDoanh> getListNganh()
+    {
+        string mast1 = ViewBag.mast1;
+        string mast2 = ViewBag.mast2;
+        return context.NganhKinhDoanh.Where(x => x.MaSoThue == mast1 && x.MaSoThue2 == mast2).ToList();
+
+    }
+} 
+<tr>                         
+<td class="DMNganh">@ViewBag.stt. Doanh thu thuần
+                            
+                            </td>
+                            <td class="text-center">
+                                <select class="infoma">
+                                   @foreach(NganhKinhDoanh n in getListNganh()){
+                                       <option value="@n.MaNganh">
+                                           @n.MaNganh
+                                       </option>
+                                   }
+                                </select>
+                            </td>
+                            <td class="text-center">Triệu đồng
+                            </td>
+                            <td><input type="text" class="infoma" id="ThangTruoc_"/></td>
+                            <td><input type="text" class="infoma" id="ThangTruocTT_"/></td>
+                            <td><input type="text" class="infoma" id="DuTinh_"/></td>
+                            <td><input type="text" class="infoma" id="DuTinhTT_"/></td>
+                            <td><input readonly type="text" id="TongCongDon_"/></td>
+<td><input readonly type="text" id="TongCongDonTT_" class="infoma" /></td>
+</tr>  

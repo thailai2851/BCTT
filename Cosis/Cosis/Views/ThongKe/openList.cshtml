@@ -1,0 +1,461 @@
+﻿@{
+    FormCosisContext context = new FormCosisContext();
+    string maX = ViewBag.ward;
+    string maH = ViewBag.district;
+    string maT = ViewBag.city;
+    string nam = ViewBag.nam;
+    string thang = ViewBag.thang;
+    string maLoaiPhieu = ViewBag.loaiPhieu;
+    string maLoaiPhieuDN = "Form1" + maLoaiPhieu;
+    string maLoaiPhieuCS = "Form2" + maLoaiPhieu;
+
+
+    string IDDiaChi;
+    string name;
+    getName();
+    void getName()
+    {
+        TinhTp t = context.TinhTp.Find(ViewBag.city);
+        PhuongXa px = context.PhuongXa.Find(ViewBag.ward);
+        QuanHuyen h = context.QuanHuyen.Find(ViewBag.district);
+        if(px==null){
+            if (h == null){
+                if (t==null)
+                {
+                    name = "Tất cả";
+                    IDDiaChi = "0";
+                }else{
+                    name = t.Name;
+                    IDDiaChi = t.Id;
+                }
+            }else{
+                name = h.Name;
+                IDDiaChi = h.Id;
+            }
+        }
+        else{
+            name = px.Name;
+            IDDiaChi = px.Id;
+        }
+    }
+
+    List<Tinh> getListDiaChi(){
+        using (System.IO.StreamReader r = new System.IO.StreamReader("C:\\Users\\Admin\\Documents\\Cosis\\Cosis\\Cosis\\wwwroot\\assets\\DiaChi.json"))
+        {
+            string json = r.ReadToEnd();
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<List<Tinh>>(json);
+        }
+    }
+    List<Tinh> listDiaChi = getListDiaChi();
+    
+
+    string format(int a)
+    {
+        return a.ToString("N", System.Globalization.CultureInfo.InvariantCulture);
+    }
+    float getTiLe(int tong, int b)
+    {
+        if (tong == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return ((float)b / (float)tong) * 100;
+        }
+    }
+    //----------------------------------------------------------------------
+    int getTongDN(){
+        if (maX == null || maX.Equals("0"))
+        {
+            if (maH == null || maH.Equals("0"))
+            {
+                if (maT==null|| maT.Equals("0"))
+                {
+                    if (maLoaiPhieu.Equals("0"))
+                    {
+                        return context.ThongTinDoanhNghiep.ToList().Count();
+                    }
+                    else
+                    {
+                        return context.ThongTinDoanhNghiep.Where(x => x.MaLoaiPhieu == maLoaiPhieuDN).ToList().Count();
+                    }
+                }else{
+                    if (maLoaiPhieu.Equals("0"))
+                    {
+                        return context.ThongTinDoanhNghiep.Where(x => x.MaTinhTp == maT).ToList().Count();
+                    }
+                    else
+                    {
+                        return context.ThongTinDoanhNghiep.Where(x => x.MaTinhTp == maT && x.MaLoaiPhieu == maLoaiPhieuDN).ToList().Count();
+                    }
+                }
+            }
+            else
+            {
+                if (maLoaiPhieu.Equals("0"))
+                {
+                    return context.ThongTinDoanhNghiep.Where(x => x.MaQuanHuyen == maH).ToList().Count();
+                }
+                else
+                {
+                    return context.ThongTinDoanhNghiep.Where(x => x.MaQuanHuyen == maH && x.MaLoaiPhieu == maLoaiPhieuDN).ToList().Count();
+                }
+            }
+        }else
+        {
+            if (maLoaiPhieu.Equals("0"))
+            {
+                return context.ThongTinDoanhNghiep.Where(x => x.MaPhuongXa == maX).ToList().Count();
+            }else{
+                return context.ThongTinDoanhNghiep.Where(x => x.MaPhuongXa == maX && x.MaLoaiPhieu == maLoaiPhieuDN).ToList().Count();
+            }
+        }
+    }
+    int getTongDNDL(string maTinh, string maHuyen, string maXa)
+    {
+        if (maXa==null || maXa.Equals("0"))
+        {
+            if (maHuyen==null|| maHuyen.Equals("0"))
+            {
+                if (maTinh==null || maTinh.Equals("0"))
+                {
+                    if (maLoaiPhieu.Equals("0"))
+                    {
+                        return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinDoanhNghiep t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 where ThangDuTinh = '" + thang + "' and nam = '" + nam + "'").ToList().Count();
+                    }
+                    else
+                    {
+                        return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinDoanhNghiep t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and MaLoaiPhieu = '" + maLoaiPhieuDN + "'").ToList().Count();
+                    }
+                }
+                else
+                {
+                    if (maLoaiPhieu.Equals("0"))
+                    {
+                        return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinDoanhNghiep t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and m.MaTinhTP = '" + maTinh + "'").ToList().Count();
+                    }
+                    else
+                    {
+                        return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinDoanhNghiep t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and MaLoaiPhieu = '" + maLoaiPhieuDN + "' and m.MaTinhTP = '" + maTinh + "'").ToList().Count();
+                    }
+                }
+            }
+            else
+            {
+                if (maLoaiPhieu.Equals("0"))
+                {
+                    return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinDoanhNghiep t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and m.MaQuanHuyen = '" + maHuyen + "'").ToList().Count();
+                }
+                else
+                {
+                    return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinDoanhNghiep t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and MaLoaiPhieu = '" + maLoaiPhieuDN + "' and m.MaQuanHuyen = '" + maHuyen + "'").ToList().Count();
+                }
+            }
+        }
+        else
+        {
+            if (maLoaiPhieu.Equals("0"))
+            {
+                return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinDoanhNghiep t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and m.MaPhuongXa = '" + maXa + "'").ToList().Count();
+            }
+            else
+            {
+                return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinDoanhNghiep t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and MaLoaiPhieu = '" + maLoaiPhieuDN + "'and m.MaPhuongXa = '" + maXa + "'").ToList().Count();
+            }
+        }
+    }
+    int tongDN = getTongDN();
+    int tongDNDL = getTongDNDL(maT, maH, maX);
+
+    //Cơ sở --------------------------------------------------------------
+    int getTongCS()
+    {
+        if (maX==null || maX.Equals("0"))
+        {
+            if (maH == null || maH.Equals("0"))
+            {
+                if (maT ==null || maT.Equals("0"))
+                {
+                    if (maLoaiPhieu.Equals("0"))
+                    {
+                        return context.ThongTinCaThe.ToList().Count();
+                    }
+                    else
+                    {
+                        return context.ThongTinCaThe.Where(x => x.MaLoaiPhieu == maLoaiPhieuCS).ToList().Count();
+                    }
+                }
+                else
+                {
+                    if (maLoaiPhieu.Equals("0"))
+                    {
+                        return context.ThongTinCaThe.Where(x => x.MaTinhTp == maT).ToList().Count();
+                    }
+                    else
+                    {
+                        return context.ThongTinCaThe.Where(x => x.MaTinhTp == maT && x.MaLoaiPhieu == maLoaiPhieuCS).ToList().Count();
+                    }
+                }
+            }
+            else
+            {
+                if (maLoaiPhieu.Equals("0"))
+                {
+                    return context.ThongTinCaThe.Where(x => x.MaQuanHuyen == maH).ToList().Count();
+                }
+                else
+                {
+                    return context.ThongTinCaThe.Where(x => x.MaQuanHuyen == maH && x.MaLoaiPhieu == maLoaiPhieuCS).ToList().Count();
+                }
+            }
+        }
+        else
+        {
+            if (maLoaiPhieu.Equals("0"))
+            {
+                return context.ThongTinCaThe.Where(x => x.MaPhuongXa == maX).ToList().Count();
+            }
+            else
+            {
+                return context.ThongTinCaThe.Where(x => x.MaPhuongXa == maX && x.MaLoaiPhieu == maLoaiPhieuCS).ToList().Count();
+            }
+        }
+    }
+    int getTongCSDL(string maTinh, string maHuyen, string maXa)
+    {
+        if (maXa==null || maXa.Equals("0"))
+        {
+            if (maHuyen == null || maHuyen.Equals("0"))
+            {
+                if (maTinh == null || maTinh.Equals("0"))
+                {
+                    if (maLoaiPhieu.Equals("0"))
+                    {
+                        return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinCaThe t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 and t.MaCoSo = m.MaCoSo where ThangDuTinh = '" + thang + "' and nam = '" + nam + "'").ToList().Count();
+                    }
+                    else
+                    {
+                        return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinCaThe t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 and t.MaCoSo = m.MaCoSo where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and MaLoaiPhieu = '" + maLoaiPhieuCS + "'").ToList().Count();
+                    }
+                }
+                else
+                {
+                    if (maLoaiPhieu.Equals("0"))
+                    {
+                        return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinCaThe t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 and t.MaCoSo = m.MaCoSo where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and m.MaTinhTP = '" + maTinh + "'").ToList().Count();
+                    }
+                    else
+                    {
+                        return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinCaThe t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 and t.MaCoSo = m.MaCoSo where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and MaLoaiPhieu = '" + maLoaiPhieuCS + "' and m.MaTinhTP = '" + maTinh + "'").ToList().Count();
+                    }
+                }
+            }
+            else
+            {
+                if (maLoaiPhieu.Equals("0"))
+                {
+                    return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinCaThe t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 and t.MaCoSo = m.MaCoSo where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and m.MaQuanHuyen = '" + maHuyen + "'").ToList().Count();
+                }
+                else
+                {
+                    return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinCaThe t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 and t.MaCoSo = m.MaCoSo where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and MaLoaiPhieu = '" + maLoaiPhieuCS + "' and m.MaQuanHuyen = '" + maHuyen + "'").ToList().Count();
+                }
+            }
+        }
+        else
+        {
+            if (maLoaiPhieu.Equals("0"))
+            {
+                return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinCaThe t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 and t.MaCoSo = m.MaCoSo where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and m.MaPhuongXa = '" + maXa + "'").ToList().Count();
+            }
+            else
+            {
+                return context.Master.FromSqlRaw("select m.[MaSoThue],m.[MaSoThue2],m.[MaCoSo],m.[Ten],m.[MaTinhTP],m.[MaQuanHuyen],m.[MaPhuongXa],m.[DiaChiCuThe],m.[SDT],m.[Email],m.[MaLH],m.[MaPhieu],m.[NgayTao],m.[ThangThucHien],m.[ThangDuTinh],m.[TenNguoiTraLoi],m.[SDTNguoiTraLoi],m.[Nam] from Master m inner join ThongTinCaThe t on t.MaSoThue = m.MaSoThue and t.MaSoThue2 = m.MaSoThue2 and t.MaCoSo = m.MaCoSo where ThangDuTinh = '" + thang + "' and nam = '" + nam + "' and MaLoaiPhieu = '" + maLoaiPhieuCS + "'and m.MaPhuongXa = '" + maXa + "'").ToList().Count();
+            }
+        }
+    }
+    int tongCS = getTongCS();
+    int tongCSDL = getTongCSDL(maT, maH, maX);
+   
+
+    //----------------------------------------------------------------------
+    int getTongDNT(string maTinh){
+        if (maLoaiPhieu.Equals("0"))
+        {
+            return context.ThongTinDoanhNghiep.Where(x => x.MaTinhTp == maTinh).ToList().Count();
+        }
+        else
+        {
+            return context.ThongTinDoanhNghiep.Where(x => x.MaTinhTp == maTinh && x.MaLoaiPhieu == maLoaiPhieuDN).ToList().Count();
+        }
+    }
+    int getTongDNH(string maHuyen){
+        if (maLoaiPhieu.Equals("0"))
+        {
+            return context.ThongTinDoanhNghiep.Where(x => x.MaQuanHuyen == maHuyen).ToList().Count();
+        }
+        else
+        {
+            return context.ThongTinDoanhNghiep.Where(x => x.MaQuanHuyen == maHuyen && x.MaLoaiPhieu == maLoaiPhieuDN).ToList().Count();
+        }
+    }
+    int getTongDNX(string maXa){
+        if (maLoaiPhieu.Equals("0"))
+        {
+            return context.ThongTinDoanhNghiep.Where(x => x.MaPhuongXa == maXa).ToList().Count();
+        }
+        else
+        {
+            return context.ThongTinDoanhNghiep.Where(x => x.MaPhuongXa == maXa && x.MaLoaiPhieu == maLoaiPhieuDN).ToList().Count();
+        }
+    }
+
+    int getTongCST(string maTinh)
+    {
+        if (maLoaiPhieu.Equals("0"))
+        {
+            return context.ThongTinCaThe.Where(x => x.MaTinhTp == maTinh).ToList().Count();
+        }
+        else
+        {
+            return context.ThongTinCaThe.Where(x => x.MaTinhTp == maTinh && x.MaLoaiPhieu == maLoaiPhieuCS).ToList().Count();
+        }
+    }
+    int getTongCSH(string maHuyen)
+    {
+        if (maLoaiPhieu.Equals("0"))
+        {
+            return context.ThongTinCaThe.Where(x => x.MaQuanHuyen == maHuyen).ToList().Count();
+        }
+        else
+        {
+            return context.ThongTinCaThe.Where(x => x.MaQuanHuyen == maHuyen && x.MaLoaiPhieu == maLoaiPhieuCS).ToList().Count();
+        }
+    }
+    int getTongCSX(string maXa)
+    {
+        if (maLoaiPhieu.Equals("0"))
+        {
+            return context.ThongTinCaThe.Where(x => x.MaPhuongXa == maXa).ToList().Count();
+        }
+        else
+        {
+            return context.ThongTinCaThe.Where(x => x.MaPhuongXa == maXa && x.MaLoaiPhieu == maLoaiPhieuCS).ToList().Count();
+        }
+    }
+}
+
+
+<div id="list" class="body-container">
+            <table class="table-TK table table-bordered table-striped table-hover text-center">
+                <thead>
+                    <tr>
+                        <th colspan="3"></th>
+                        <th colspan="4">Doanh nghiệp</th>
+                        <th colspan="4">Cơ sở</th>
+                    </tr>
+                    <tr>
+                        <th>Stt</th>
+                        <th>Mã</th>
+                        <th>Tên</th>
+                        <th>Tổng</th>
+                        <th>Đã làm</th>
+                        <th>Chưa làm</th>
+                        <th>Tỉ lệ hoàn thành</th>
+                        <th>Tổng</th>
+                        <th>Đã làm</th>
+                        <th>Chưa làm</th>
+                        <th>Tỉ lệ hoàn thành</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background-color:#17a2b8">
+                        <td>1</td>
+                        <td>@IDDiaChi</td>
+                        <td>@name</td>
+                        <td>@format(tongDN)</td>
+                        <td>@format(tongDNDL)</td>
+                        <td>@format(tongDN-tongDNDL)</td>
+                        <td>@getTiLe(tongDN,tongDNDL).ToString("0.00")%</td>
+                        <td>@format(tongCS)</td>
+                        <td>@format(tongCSDL)</td>
+                        <td>@format(tongCS-tongCSDL)</td>
+                        <td>@getTiLe(tongCS,tongCSDL).ToString("0.00")%</td>
+                    </tr>
+            @if(maX.Equals("0")){
+            @if (maT.Equals("0"))
+            {
+                @for(int i =0; i < listDiaChi.Count(); i++)
+                {
+                    int a = getTongDNT(listDiaChi[i].Id);
+                    int b = getTongDNDL(listDiaChi[i].Id, null, null);
+                    int c = getTongCST(listDiaChi[i].Id);
+                    int d = getTongCSDL(listDiaChi[i].Id, null, null);
+                    <tr>
+                        <td>@(i+2)</td>
+                        <td>@listDiaChi[i].Id</td>
+                        <td>@listDiaChi[i].Name</td>
+                        <td>@a</td>
+                        <td>@b</td>
+                        <td>@(a-b)</td>
+                        <td>@getTiLe(a,b).ToString("0.00")%</td>
+                        <td>@c</td>
+                        <td>@d</td>
+                        <td>@(c-d)</td>
+                        <td>@getTiLe(c,d).ToString("0.00")%</td>
+                    </tr>
+                }
+            }else{
+                @if (maH.Equals("0"))
+                {
+                    List<Districts> listH = listDiaChi.FirstOrDefault(x => x.Id == maT).Districts;
+                    @for (int i = 0; i < listH.Count(); i++)
+                    {
+                        int a = getTongDNH(listH[i].Id);
+                        int b = getTongDNDL(maT, listH[i].Id, null);
+                        int c = getTongCSH(listH[i].Id);
+                        int d = getTongCSDL(maT, listH[i].Id, null);
+                        <tr>
+                            <td>@(i + 2)</td>
+                            <td>@listH[i].Id</td>
+                            <td>@listH[i].Name</td>
+                            <td>@a</td>
+                            <td>@b</td>
+                            <td>@(a-b)</td>
+                            <td>@getTiLe(a,b).ToString("0.00")%</td>
+                            <td>@c</td>
+                            <td>@d</td>
+                            <td>@(c-d)</td>
+                            <td>@getTiLe(c,d).ToString("0.00")%</td>
+                        </tr>
+                    }
+                }
+                else{
+                    List<Wards> listX = listDiaChi.FirstOrDefault(x => x.Id == maT).Districts.FirstOrDefault(x=>x.Id==maH).Wards;
+                    @for (int i = 0; i < listX.Count(); i++)
+                    {
+                        int a = getTongDNX(listX[i].Id);
+                        int b = getTongDNDL(maT, maH, listX[i].Id);
+                        int c = getTongCSX(listX[i].Id);
+                        int d = getTongCSDL(maT, maH, listX[i].Id);
+                        <tr>
+                           <td>@(i + 2)</td>
+                           <td>@listX[i].Id</td>
+                           <td> @listX[i].Name</td>
+                            <td>@a</td>
+                            <td>@b</td>
+                            <td>@(a-b)</td>
+                            <td>@getTiLe(a,b).ToString("0.00")%</td>
+                            <td>@c</td>
+                            <td>@d</td>
+                            <td>@(c-d)</td>
+                            <td>@getTiLe(c,d).ToString("0.00")%</td>
+                        </tr>
+                    }
+                }
+            }
+            }
+        </tbody>
+            </table>
+        </div>

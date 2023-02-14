@@ -1,0 +1,237 @@
+﻿@model Cosis.Models.Entities.Master
+
+<div class="form-group">
+          <div class="row">
+            <label class="lb-info">Tên doanh nghiệp/HTX: </label>
+            <input type="text" class="infoma" />
+          </div>
+
+          <div class="row">
+            <label class="lb-info">Tỉnh/TP trực thuộc TW: </label>
+            <select name="" id="" class="infoma">
+              <option value="">--- Chọn Tỉnh/TP ---</option>
+            </select>
+          </div>
+          <div class="row">
+            <label class="lb-info"
+              >Huyện/quận <i>(thị xã, TP thuộc tỉnh)</i>:
+            </label>
+            <select name="" id="" class="infoma">
+              <option value="">--- Chọn Huyện/quận ---</option>
+            </select>
+          </div>
+          <div class="row">
+            <label class="lb-info">Xã/phường/thị trấn: </label>
+            <select name="" id="" class="infoma">
+              <option value="">--- Chọn Xã/phường/thị trấn ---</option>
+            </select>
+          </div>
+          <div class="row">
+            <label class="lb-info">Địa bàn: </label>
+            <input type="text" class="infoma" />
+          </div>
+          <div class="row">
+            <label class="lb-info">Mã cơ sở: </label>
+            <input type="text" class="infoma" />
+          </div>
+          <div class="row">
+            <label class="lb-info">Tên cơ sở: </label>
+            <input type="text" class="infoma" />
+          </div>
+          <div class="row">
+            <label class="lb-info">Mã số thuế</label>
+            <button type="button" id="getValues">Get Values</button>
+            <input
+              type="text"
+              id="n0"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="1"
+            />
+            <input
+              type="text"
+              id="n1"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="2"
+            />
+            <input
+              type="text"
+              id="n2"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="3"
+            />
+            <input
+              type="text"
+              id="n3"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="4"
+            />
+            <input
+              type="text"
+              id="n4"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="5"
+            />
+            <input
+              type="text"
+              id="n5"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="6"
+            />
+            <input
+              type="text"
+              id="n6"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="7"
+            />
+            <input
+              type="text"
+              id="n7"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="8"
+            />
+            <input
+              type="text"
+              id="n8"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="9"
+            />
+            <input
+              type="text"
+              id="n9"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="10"
+            />
+
+            <input
+              type="text"
+              id="n10"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="11"
+            />
+            <input
+              type="text"
+              id="n11"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="12"
+            />
+            <input
+              type="text"
+              id="n12"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="13"
+            />
+          </div>
+          <div class="row">
+            <label class="lb-info">Thôn, ấp<i>(số nhà, đường phố)</i>: </label>
+            <input type="text" class="infoma" />
+          </div>
+
+          <div class="row">
+            <label class="lb-info">Số điện thoại: </label>
+            <input type="text" class="infoma" />
+          </div>
+          <div class="row">
+            <label class="lb-info">Email: </label>
+            <input type="text" class="infoma" />
+          </div>
+          <div class="loaihinh">
+            <label>Loại hình kinh tế</label>
+
+            <div class="checkbox-tt">
+              <label> 1.Kinh tế nhà nước</label>
+              <label> 2.Kinh tế ngoài nhà nước</label>
+              <label> 3.Kinh tế có vốn đầu tư trực tiếp nước ngoài</label>
+            </div>
+            <div class="checkbox">
+              <input type="radio" name="loaihinhkt" value="Kinh tế nhà nước" />
+              <input
+                type="radio"
+                name="loaihinhkt"
+                value="Kinh tế ngoài nhà nước"
+              />
+              <input
+                type="radio"
+                name="loaihinhkt"
+                value="Kinh tế có vốn đầu tư trực tiếp nước ngoài"
+              />
+            </div>
+          </div>
+          <div class="nganhKD">
+            <div class="row">
+              <label for="">Ngành hoạt động kinh doanh</label>
+              <div class="MNHD row">
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+              </div>
+              <label for="">Tên ngành HĐKD:</label>
+              <input type="text" class="infoma-nganh" />
+            </div>
+          </div>
+        </div>

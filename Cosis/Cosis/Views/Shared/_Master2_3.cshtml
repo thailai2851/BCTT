@@ -1,0 +1,271 @@
+﻿@using Cosis.Models
+@model Cosis.Models.Entities.Master
+@{
+
+    FormCosisContext context = new FormCosisContext();
+    TinhTp getTinh(string idTinh)
+    {
+        return context.TinhTp.Find(idTinh);
+    }
+
+    QuanHuyen getHuyen(string idHuyen)
+    {
+        return context.QuanHuyen.Find(idHuyen);
+    }
+
+    PhuongXa getXa(string idXa)
+    {
+        return context.PhuongXa.Find(idXa);
+    }
+    /* TinhTp getTinh(string idTinh){
+         return context.TinhTp.Find(idTinh);
+     }
+
+     QuanHuyen getHuyen(string idHuyen)
+     {
+         return context.QuanHuyen.Find(idHuyen);
+     }
+
+     PhuongXa getXa(string idXa)
+     {
+         return context.PhuongXa.Find(idXa);
+     }
+     */
+    List<NganhKinhDoanh> getNganhKinhDoanh(string mcs)
+    {
+        return context.NganhKinhDoanh.Where(x => x.MaCoSo == mcs).ToList();
+    }
+
+    NganhHoatDongKinhDoanh getNganhHoatDongKinhDoanh(string ma)
+    {
+        return context.NganhHoatDongKinhDoanh.Where(x => x.MaNganh == ma).FirstOrDefault();
+    }
+}
+<div id="ThongTinDoanhNghiepGroup" class="form-group">
+     <div class="adress">
+
+            <div class="adress-detail">
+              <div class="row">
+                <label class="lb-info">Tỉnh/TP trực thuộc TW: </label>
+                <select name="Master.MaTinhTp" id="city" class="infoma">
+                    <option value="" disabled>--- Chọn Tỉnh/TP ---</option>
+                </select>
+              </div>
+              <div class="row">
+                <label class="lb-info"
+                  >Huyện/quận <i>(thị xã, TP thuộc tỉnh)</i>:
+                </label>
+                <select name="Master.MaQuanHuyen" id="district" class="infoma">
+                    @* <option value="@Model.MaQuanHuyen">@getHuyen(Model.MaQuanHuyen).Name</option>*@
+                 <option value="" selected>--- Chọn Huyện/quận ---</option>
+                </select>
+              </div>
+              <div class="row">
+                <label class="lb-info">Xã/phường/thị trấn: </label>
+                <select name="Master.MaPhuongXa" id="ward" class="infoma">
+                    @*<option value="@Model.MaPhuongXa">@getXa(Model.MaPhuongXa).Name</option>*@
+                  <option value="" selected>--- Chọn Xã/phường/thị trấn ---</option>
+                </select>
+              </div>
+
+            </div>
+          </div>
+  <div class="row">
+    <label class="lb-info">Địa bàn: </label>
+    <input readonly type="text" value="@Model.DiaChiCuThe - @getXa(Model.MaPhuongXa).Name - @getHuyen(Model.MaQuanHuyen).Name - @getTinh(Model.MaTinhTp).Name" class="infoma" />
+  </div>
+   
+      
+    
+                       <div class="row">
+                        <label class="lb-info">Mã cơ sở: </label>
+                        <input type="text" id="macoso" maxlength="5" class="infoma" value="@Model.MaCoSo" required readonly autofocus/>
+                      </div>
+    
+  <div class="row">
+    <label class="lb-info">Tên cơ sở: </label>
+    <input readonly type="text" value="@Model.Ten" name="Master.Ten"class="infoma" />
+    </div>
+    @if (Model.MaSoThue == null && Model.MaSoThue2 == null)
+    {
+            <div class="row">
+        <label class="lb-info">Mã số thuế</label>
+        <input type="text" value="" id="n0" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="1" autofocus/>
+        <input type="text" value="" id="n1" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="2" />
+        <input type="text" value="" id="n2" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="3" />
+        <input type="text" value="" id="n3" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="4" />
+        <input type="text" value="" id="n4" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="5" />
+        <input type="text" value="" id="n5" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="6" />
+        <input type="text" value="" id="n6" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="7" />
+        <input type="text" value="" id="n7" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="8" />
+        <input type="text" value="" id="n8" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="9" />
+        <input type="text" value="" id="n9" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="10" />
+
+        <input type="text" value="" id="n10" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="11" />
+        <input type="text" value=""  id="n11" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="12" />
+        <input type="text" value="" id="n12" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="13" />
+      </div>
+    }
+    else
+    {
+            <div class="row">
+        <label class="lb-info">Mã số thuế</label>
+        <input type="text" value="@Model.MaSoThue.Substring(0,1)" id="n0" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="1" autofocus/>
+        <input type="text" value="@Model.MaSoThue.Substring(1,1)" id="n1" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="2" />
+        <input type="text" value="@Model.MaSoThue.Substring(2,1)" id="n2" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="3" />
+        <input type="text" value="@Model.MaSoThue.Substring(3,1)" id="n3" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="4" />
+        <input type="text" value="@Model.MaSoThue.Substring(4,1)" id="n4" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="5" />
+        <input type="text" value="@Model.MaSoThue.Substring(5,1)" id="n5" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="6" />
+        <input type="text" value="@Model.MaSoThue.Substring(6,1)" id="n6" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="7" />
+        <input type="text" value="@Model.MaSoThue.Substring(7,1)" id="n7" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="8" />
+        <input type="text" value="@Model.MaSoThue.Substring(8,1)" id="n8" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="9" />
+        <input type="text" value="@Model.MaSoThue.Substring(9,1)" id="n9" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="10" />
+
+        <input type="text" value="@Model.MaSoThue2.Substring(0,1)" id="n10" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="11" />
+        <input type="text" value="@Model.MaSoThue2.Substring(1,1)"  id="n11" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="12" />
+        <input type="text" value="@Model.MaSoThue2.Substring(2,1)" id="n12" maxlength="1" size="1" class="text-center MS" autocomplete="off" data-next="13" />
+      </div>
+    }
+  <div class="row">
+    <label class="lb-info">Thôn, ấp<i>(số nhà, đường phố)</i>: </label>
+    <input readonly type="text" name="Master.DiaChiCuThe" value="@Model.DiaChiCuThe" class="infoma" />
+  </div>
+
+  <div class="row">
+    <label class="lb-info">Số điện thoại: </label>
+    <input readonly name="Master.Sdt" value="@Model.Sdt" type="text" class="infoma" />
+  </div>
+  <div class="row">
+    <label class="lb-info">Email: </label>
+    <input readonly name="Master.Email" value="@Model.Email" type="text" class="infoma" />
+  </div>
+  <div class="loaihinh">
+    <label>Loại hình kinh tế</label>
+
+    <div class="checkbox-tt">
+      <label> 1.Kinh tế nhà nước</label>
+      <label> 2.Kinh tế ngoài nhà nước</label>
+      <label> 3.Kinh tế có vốn đầu tư trực tiếp nước ngoài</label>
+    </div>
+    <div class="checkbox">
+            @if (Model.MaLh.Trim() == "01")
+            {
+            <input type="radio" checked name="Master.MaLh" value="01" />
+            }
+            else
+            {
+            <input disabled type="radio" name="Master.MaLh" value="01" />
+            }
+            @if (Model.MaLh.Trim() == "02")
+            {
+            <input type="radio" checked name="Master.MaLh" value="02" />
+            }
+            else
+            {
+            <input disabled type="radio" name="Master.MaLh" value="02" />
+            }
+
+            @if (Model.MaLh.Trim() == "03")
+            {
+            <input type="radio" checked name="Master.MaLh" value="03" />
+            }
+            else
+            {
+            <input disabled type="radio" name="Master.MaLh" value="03" />
+            }
+    </div>
+  </div>
+   <div class="row m-0">
+        <div class="col-3">
+        <label class="pl-1" for=""><b>8. Ngành hoạt động kinh doanh</b></label>
+        </div>
+        <div class="col-9 m-0">
+            @foreach (NganhKinhDoanh nganh in getNganhKinhDoanh(Model.MaCoSo))
+            {
+                    <div class="row m-0 pl-0">
+                      <div class="col-5 pl-0">
+                        <input readonly value="@nganh.MaNganh.Substring(0,1)" type="text" maxlength="1" size="1"
+            class="text-center MN" />
+                        <input readonly value="@nganh.MaNganh.Substring(1,1)" type="text" maxlength="1" size="1"
+            class="text-center MN" />
+                        <input readonly value="@nganh.MaNganh.Substring(2,1)" type="text" maxlength="1" size="1"
+            class="text-center MN" />
+                        <input readonly value="@nganh.MaNganh.Substring(3,1)" type="text" maxlength="1" size="1"
+            class="text-center MN" />
+                        <input readonly value="@nganh.MaNganh.Substring(4,1)" type="text" maxlength="1" size="1"
+            class="text-center MN" />
+                      </div>
+                      <div class="col-7 pl-0 pr-0">
+                        <label for="">Tên ngành HĐKD: @getNganhHoatDongKinhDoanh(nganh.MaNganh).TenNganh</label>
+                      </div>
+                    </div>
+            }
+          </div>
+      </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    var citis = document.getElementById("city");
+var districts = document.getElementById("district");
+var wards = document.getElementById("ward");
+
+var Parameter = {
+  url: "https://localhost:" + window.location.port + "/assets/DiaChi.json",
+  method: "GET", 
+  responseType: "application/json", 
+};
+var promise = axios(Parameter);
+promise.then(
+    function (result) {
+        renderCity(result.data);
+});
+function renderCity(data) {
+  for (const x of data) {
+      if(x.Id == @Html.Raw(Model.MaTinhTp.Trim())){
+            citis.options[citis.options.length] = new Option(x.Name, x.Id,true,true);
+            const result = data.filter(n => n.Id === x.Id);
+
+            for (const k of result[0].Districts) {
+                if(k.Id == @Html.Raw(Model.MaQuanHuyen.Trim())){
+                    district.options[district.options.length] = new Option(k.Name, k.Id,true,true);
+                    const dataCity = data.filter((n) => n.Id === citis.value);
+                    const dataWards = dataCity[0].Districts.filter(n => n.Id === k.Id)[0].Wards;
+                      for (const w of dataWards) {
+                          if(w.Id==@Html.Raw(Model.MaPhuongXa.Trim())){
+                            wards.options[wards.options.length] = new Option(w.Name, w.Id,true,true);
+                          }else{
+                              wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                          }
+                      }
+                }else{
+                    district.options[district.options.length] = new Option(k.Name, k.Id);
+                }
+            }
+      }else{
+          citis.options[citis.options.length] = new Option(x.Name, x.Id);
+      }
+  }
+citis.onchange = function () {
+    district.length = 1;
+    ward.length = 1;
+    if(this.value != ""){
+      const result = data.filter(n => n.Id === this.value);
+
+      for (const k of result[0].Districts) {
+        district.options[district.options.length] = new Option(k.Name, k.Id);
+      }
+    }
+  };
+  district.onchange = function () {
+    ward.length = 1;
+    const dataCity = data.filter((n) => n.Id === citis.value);
+    if (this.value != "") {
+      const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+      for (const w of dataWards) {
+            wards.options[wards.options.length] = new Option(w.Name, w.Id);
+      }
+    }
+  };
+}
+    </script>

@@ -1,0 +1,134 @@
+﻿@{
+    FormCosisContext context = new FormCosisContext();
+    List<NganhKinhDoanh> getNganhKinhDoanh(string mast1, string mast2)
+    {
+        return context.NganhKinhDoanh.Where(x => x.MaSoThue == mast1 && x.MaSoThue2 == mast2).ToList();
+    }
+    List<NganhKinhDoanh> list;
+    NganhHoatDongKinhDoanh getNganhHoatDongKinhDoanh(string ma)
+    {
+        return context.NganhHoatDongKinhDoanh.Where(x => x.MaNganh == ma).FirstOrDefault();
+    }
+
+    int getThang()
+    {
+        return DateTime.Now.Month;
+    }
+    int getThangTruoc()
+    {
+        if (getThang() == 1)
+        {
+            return 12;
+        }
+        else
+        {
+            return getThang() - 1;
+        }
+    }
+    int getNam()
+    {
+        return DateTime.Now.Year;
+    }
+    string getThangNamTruoc()
+    {
+        if (getThang() == 1)
+            return "12/" + (getNam() - 1);
+        else
+        {
+            return (getThang() - 1) + "/" + getNam();
+        }
+    }
+}
+<table class="table table-bordered" id="tab-KQ">
+          <thead>
+            <tr class="text-center">
+              <th class="Chitieu">Chỉ tiêu</th>
+              <th class="NganhCM">Ngành chọn mẫu</th>
+              <th class="DVT">Đơn vị tính</th>
+              <th colspan="2" class="Money">Tháng thực hiện @getThangNamTruoc()</th>
+              <th colspan="2" class="Money">Dự tính @getThang()/@getNam()</th>
+              <th colspan="2" class="Money">
+                Cộng dồn từ đầu năm đến cuối tháng @getThang()/@getNam()
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center">
+              <td>A</td>
+              <td>B</td>
+              <td>1</td>
+              <td>Tổng</td>
+              <td>TTTM</td>
+              <td>Tổng</td>
+              <td>TTTM</td>
+              <td>Tổng</td>
+              <td>TTTM</td>
+            </tr>
+        @{
+            list = getNganhKinhDoanh(ViewBag.MaSoThue1, ViewBag.MaSoThue2);
+            int z = 1;
+        }
+            <tr>
+
+              <td class="DMNganh">1.Tổng doanh thu
+                  <input type="hidden" id="SLRow" value="@list.Count"/>
+                  <input type="hidden" name="Detail[0].Stt" value="1."/>
+                  <input type="hidden" name="Detail[1].Stt" value="1.1."/>
+                  <input type="hidden" name="Detail[0].TenCt" value="Tổng doanh thu"/>
+                  <input type="hidden" name="Detail[1].TenCt" value="Tổng doanh thu bán được trong TTTM"/>
+              </td>
+              <td class="text-center">...</td>
+              <td class="text-center">Triệu đồng
+                  <input type="hidden" name="Detail[0].Dvt" value="Triệu đồng"/>
+                  <input type="hidden" name="Detail[1].Dvt" value="Triệu đồng"/>
+              </td>
+              <td><input readonly type="text" class="infomal" id="ThangTruoc0" name="Detail[0].ThthangTruoc"/>
+              </td>
+              <td><input readonly type="text" class="infomal" id="ThangTruocTT0" name="Detail[1].ThthangTruoc" /></td>
+              <td><input readonly type="text" class="infomal" id="DuTinh0" name="Detail[0].DuTinh"/></td>
+              <td><input readonly type="text" class="infomal" id="DuTinhTT0" name="Detail[1].DuTinh" /></td>
+              <td><input readonly type="text" class="infomal" id="TongCongDon0" name="Detail[0].TongCongDon"/></td>
+              <td><input readonly type="text" class="infomal" id="TongCongDonTT0" name="Detail[1].TongCongDon"/></td>
+            </tr>
+            
+            @for(int i =2; i<(list.Count+2);i++){
+            <tr>
+                @{
+                    int j = z + 1;
+                }
+                  <td class="DMNganh">@i. Doanh thu thuần
+                      <input type="hidden" id="stt_@i" name="Detail[@z].Stt"p value="@i."/>
+                      <input type="hidden" id="sttTT_@i" name="Detail[@j].Stt" value="@i.1."/>
+                      <input type="hidden" name="Detail[@z].TenCt" value="Doanh thu thuần @getNganhHoatDongKinhDoanh(list[i-2].MaNganh).TenNganh"/>
+                      <input type="hidden" name="Detail[@j].TenCt" value="Trong đó: Bán trong siêu thị trung tâm thương mại"/>
+                  </td>
+                  <td class="text-center">@getNganhHoatDongKinhDoanh(list[i-2].MaNganh).MaNganh</td>
+                  <td class="text-center">Triệu đồng
+                          <input type="hidden" name="Detail[@z].Dvt" value="Triệu đồng"/>
+                      <input type="hidden" name="Detail[@j].Dvt" value="Triệu đồng"/>
+                  </td>
+                  <td><input type="text" class="infomal" id="ThangTruoc_@i" oninput="changeThthangTruoc('@i')" name="Detail[@z].ThthangTruoc" /></td>
+                  <td><input type="text" class="infomal" id="ThangTruocTT_@i" oninput="changeThthangTruocTT('@i')" name="Detail[@j].ThthangTruoc" /></td>
+                  <td><input type="text" class="infomal" id="DuTinh_@i" oninput="changeDuTinh('@i')" name="Detail[@z].DuTinh" /></td>
+                  <td><input type="text" class="infomal" id="DuTinhTT_@i" oninput="changeDuTinhTT('@i')" name="Detail[@j].DuTinh" /></td>
+                  <td><input readonly type="text" id="TongCongDon_@i" oninput="changeTongCongDon()" class="infomal" name="Detail[@z].TongCongDon" /></td>
+                  <td><input readonly type="text" id="TongCongDonTT_@i" class="infomal" name="Detail[@j].TongCongDon" /></td>
+                @{
+                    z += 2;
+                }
+                </tr>
+            }
+          </tbody>
+        </table>
+<script>
+        $('.infomal').on('blur', function() {
+    if(checkNumber(this.value)){
+        const value = this.value.replace(/,/g, '');
+        this.value = parseFloat(value).toLocaleString('en-US', {
+        style: 'decimal',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+            })
+    }
+});
+</script>

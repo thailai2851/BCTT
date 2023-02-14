@@ -1,0 +1,1112 @@
+﻿@model Cosis.Models.PhieuDieuTra
+@{
+    FormCosisContext context = new FormCosisContext();
+    string getThangTruoc(string m){
+        int i = Int32.Parse(m);
+        if(i==1){
+            return "12";
+        }else{
+            return toStringMonth(i - 1);
+        }
+    }
+    string getLink()
+    {
+        string port = Context.Request.Host.Port.ToString();
+        return "https://localhost:" + port + "/assets/DiaChi.json";
+    }
+    string getArray(){
+        if (Model.DanhSachNhanToAnhHuong !=null)
+        {
+            string a = "";
+            foreach (DanhSachNhanToAnhHuong l in Model.DanhSachNhanToAnhHuong)
+            {
+                a = a + "'" + l.MaAh.Trim() + "', ";
+            }
+            return a;
+        }else{
+            return "";
+        }
+
+    }
+
+    string toStringMonth(int i){
+        if (i.ToString().Length > 1) return i.ToString();
+        else return "0" + i;
+    }
+
+    string toStringMonthAndYear(int m, int year)
+    {
+        if (m == 1)
+        {
+            return 12 + "/" + (year - 1).ToString();
+        }
+        else
+        {
+            return toStringMonth(m - 1) + "/" + year;
+        }
+    }
+    List<ThongTinDoanhNghiep> getTable(){
+        return context.ThongTinDoanhNghiep.Where(x => x.MaLoaiPhieu == "Form1_2").ToList();
+    }
+    int count(string mst1, string mst2, string thang, string nam){
+        return context.Master.Where(x => x.MaSoThue == mst1 && x.MaSoThue2 == mst2 && x.ThangDuTinh == thang && x.Nam == nam).Count();
+    }
+}
+<form id="form" action="/form1_2" method="post" enctype="multipart/form-data">
+       <div class="choose-day row">
+          <div class="choose-month">
+            <label for="">Tháng</label>
+            <select name="thangDuTinh" id="phieuThang" onchange="doiPhieu()">
+                @for (int i = 1; i <= 12; i++)
+                {
+                    @if (Int32.Parse(ViewBag.thang) == i)
+                    {
+                                <option selected value="@toStringMonth(i)">@toStringMonth(i)</option>
+                    }
+                    else
+                    {
+                                <option value="@toStringMonth(i)">@toStringMonth(i)</option>
+                    }
+                }
+            </select>
+            <input type="hidden" name="thangThucHien" value="@getThangTruoc(ViewBag.thang)"/>
+          </div>
+          <div class="choose-year">
+            <label for="">Năm</label>
+            <input id="phieuNam"
+              type="text"
+              size="1"
+              name="nam"
+              value="@ViewBag.nam"
+              style="height: 26px"
+
+            />
+          </div>
+        </div>
+        <div class="form-group text-center">
+          <label> <b>ĐIỀU TRA HOẠT ĐỘNG THƯƠNG MẠI VÀ DỊCH VỤ </b> </label>
+        </div>
+    <div class="form-group MSTP-info">
+          <label class="P-name"><b>Phiếu 1.2/DN-LAD-T</b></label>
+                    <div class="mstp">
+          <label for="">Mã số thuế</label>
+            @if (Model.Master == null)
+            {
+                    <div class="row">
+                        <input
+              type="text"
+              id="n0"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              autofocus
+              data-next="1"
+            />
+                        <input
+              type="text"
+              id="n1"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="2"
+            />
+                        <input
+              type="text"
+              id="n2"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="3"
+            />
+                        <input
+              type="text"
+              id="n3"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="4"
+            />
+                        <input
+              type="text"
+              id="n4"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="5"
+            />
+                        <input
+              type="text"
+              id="n5"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="6"
+            />
+                        <input
+              type="text"
+              id="n6"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="7"
+            />
+                        <input
+              type="text"
+              id="n7"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="8"
+            />
+                        <input
+              type="text"
+              id="n8"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="9"
+            />
+                        <input
+              type="text"
+              id="n9"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="10"
+            />
+                    </div>
+                    <div class="row">
+                        <input
+              type="text"
+              id="n10"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="11"
+            />
+                <input
+              type="text"
+              id="n11"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="12"
+            />
+                <input
+              type="text"
+              id="n12"
+              maxlength="1"
+              size="1"
+              class="text-center MS"
+              autocomplete="off"
+              data-next="13"
+            />
+              </div>
+                  <input type="hidden" id="MST1" value="" name="Master.MaSoThue"/>
+            }
+            else
+            {
+                  <div class="row">
+                    @for (int i = 0; i < 10; i++)
+                    {
+                                <input type="text"
+                           id="n0"
+                           maxlength="1"
+                           size="1"
+                           class="text-center MS"
+                           autocomplete="off"
+                           autofocus
+                           data-next="1" 
+                           value="@Model.Master.MaSoThue.Substring(i,1)"
+                           />
+                    }
+                    </div>
+                    <div class="row">
+                    @for (int i = 0; i < 3; i++)
+                    {
+
+                            <input type="text"
+                           id="n10"
+                           maxlength="1"
+                           size="1"
+                           class="text-center MS"
+                           autocomplete="off"
+                           data-next="11" 
+                           value="@Model.Master.MaSoThue2.Substring(i,1)"
+                           />
+                    }
+                    </div>
+                     <input type="hidden" id="Maphieu" asp-for="@Model.Master.MaPhieu"/>
+                     <input type="hidden" id="MST1" value="@Model.Master.MaSoThue@Model.Master.MaSoThue2" name="Master.MaSoThue"/>
+            }
+
+          </div>
+        </div>
+        <div class="form-group text-center tenphieu">
+          <label class="text-center">
+            <b>PHIẾU THU THẬP THÔNG TIN ĐỐI VỚI DOANH NGHIỆP/HỢP TÁC XÃ</b>
+          </label>
+          <label>
+            <b>
+              <i>
+                (Áp dụng đối với doanh nghiệp/chi nhánh doanh nghiệp, hợp tác xã
+                có hoạt động dịch vụ lưu trú, ăn uống, du lịch)
+              </i>
+            </b>
+          </label>
+        </div>
+
+        <div class="form-group m-title text-center">
+          <h5 style="margin-top: .5rem;"><b>A. THÔNG TIN CHUNG</b></h5>
+        </div>
+        <div id="ThongTinDoanhNghiepGroup" class="form-group">
+          <div class="row">
+           <label class="lb-info"><b>1. Tên doanh nghiệp/HTX: </b></label>
+            <input type="text" name="Master.Ten" asp-for="@Model.Master.Ten" class="infoma" />
+          </div>
+          <div class="adress">
+           <label for=""><b>2. Địa chỉ doanh nghiệp: </b></label>
+            <div class="adress-detail">
+              <div class="row">
+                <label class="lb-info">Tỉnh/TP trực thuộc TW: </label>
+                <select name="Master.MaTinhTp" id="city" class="infoma">
+                  <option value="">--- Chọn Tỉnh/TP ---</option>
+                </select>
+              </div>
+              <div class="row">
+                <label class="lb-info"
+                  >Huyện/quận <i>(thị xã, TP thuộc tỉnh)</i>:
+                </label>
+                <select name="Master.MaQuanHuyen" id="district" class="infoma">
+                  <option value="">--- Chọn Huyện/quận ---</option>
+                </select>
+              </div>
+              <div class="row">
+                <label class="lb-info">Xã/phường/thị trấn: </label>
+                <select name="Master.MaPhuongXa" id="ward" class="infoma">
+                  <option value="">--- Chọn Xã/phường/thị trấn ---</option>
+                </select>
+              </div>
+              <div class="row">
+                <label class="lb-info"
+                  >Thôn, ấp<i>(số nhà, đường phố)</i>:
+                </label>
+                <input name="Master.DiaChiCuThe" type="text" class="infoma" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+           <label class="lb-info"><b>3. Số điện thoại: </b></label>
+            <input name="Master.Sdt" type="text" class="infoma" />
+          </div>
+          <div class="row">
+            <label class="lb-info"><b>4. Email: </b></label>
+            <input name="Master.Email" type="text" class="infoma" />
+          </div>
+          <div class="loaihinh">
+            <label><b>5. Loại hình kinh tế</b></label>
+
+            <div class="checkbox-tt">
+              <label> 1.Kinh tế nhà nước</label>
+              <label> 2.Kinh tế ngoài nhà nước</label>
+              <label> 3.Kinh tế có vốn đầu tư trực tiếp nước ngoài</label>
+            </div>
+            <div class="checkbox">
+              <input type="radio" name="Master.MaLh" value="Kinh tế nhà nước" />
+              <input
+                type="radio"
+                name="Master.MaLh"
+                value="Kinh tế ngoài nhà nước"
+              />
+              <input
+                type="radio"
+                name="Master.MaLh"
+                value="Kinh tế có vốn đầu tư trực tiếp nước ngoài"
+              />
+            </div>
+          </div>
+          <div class="nganhKD">
+            <div class="row">
+              <label for=""><b>6. Ngành hoạt động kinh doanh</b></label>
+              <div class="MNHD row">
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+                <input
+                  type="text"
+                  maxlength="1"
+                  size="1"
+                  class="text-center MN"
+                />
+              </div>
+              <label for="">Tên ngành HĐKD:</label>
+              <input type="text" class="infoma-nganh" style="width:35%"/>
+            </div>
+          </div>
+        </div>
+       <div class="form-group m-title text-center">
+          <h5 style="margin-top: .5rem;"><b>B. KẾT QUẢ HOẠT ĐỘNG KINH DOANH</b></h5>
+        </div>
+        <table class="table table-striped table-hover table-bordered">
+          <thead>
+            <tr class="text-center">
+              <th><b>Tên chỉ tiêu</b></th>
+              <th><b>Đơn vị tính</b></th>
+               <th style="width:20%;"><b>Tháng thực hiện @toStringMonthAndYear(Int32.Parse(ViewBag.thang),Int32.Parse(ViewBag.nam))</b></th>
+              <th style="width:20%;"><b>Dự tính @toStringMonth(Int32.Parse(ViewBag.thang))/@ViewBag.nam</b></th>
+              <th style="width:20%;">
+                <b>Cộng dồn từ đầu năm đến cuối tháng @toStringMonth(Int32.Parse(ViewBag.thang))/@ViewBag.nam</b>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr class="text-center">
+              <td>A</td>
+              <td>B</td>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>1.Tổng doanh thu
+                  <input type="hidden" id="stt0" asp-for="Detail[0].Stt" value="1."/>
+                  <input type="hidden" asp-for="Detail[0].TenCt" value="Tổng doanh thu"/>  
+              </td>
+              <td class="text-center">Triệu đồng
+                   <input type="hidden" asp-for="Detail[0].Dvt" value="Triệu đồng"/> 
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly id="ThthangTruoc0" oninput="changeThthangTruoc(0)" asp-for="Detail[0].ThthangTruoc" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly id="DuTinh0" oninput="changeDuTinh(0)" asp-for="Detail[0].DuTinh" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly id="TongCongDon0" asp-for="Detail[0].TongCongDon" class="infomal" /></td>
+            </tr>
+            <tr>
+              <th attr colspan="5">B1. Dịch vụ lưu trú</th>
+            </tr>
+            <tr>
+              <td>2.Doanh thu thuần
+                  <input type="hidden" id="stt2" asp-for="Detail[1].Stt" value="2."/>
+                  <input type="hidden" asp-for="Detail[1].TenCt" value="Doanh thu thuần"/>
+              </td>
+              <td class="text-center">Triệu đồng
+                  <input type="hidden" asp-for="Detail[1].Dvt" value="Triệu đồng"/>  
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[1].ThthangTruoc" id="ThthangTruoc2" oninput="changeThthangTruoc(2)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[1].DuTinh" id="DuTinh2" oninput="changeDuTinh(2)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[1].TongCongDon" id="TongCongDon2" oninput="changeCongDon(2)" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td>3.Số lượt khách phục vụ
+                  <input type="hidden" id="stt3" asp-for="Detail[2].Stt" value="3."/>
+                  <input type="hidden" asp-for="Detail[2].TenCt" value="Số lượt khách phục vụ"/>
+              </td>
+              <td class="text-center">Lượt khách
+                  <input type="hidden" asp-for="Detail[2].Dvt" value="Lượt khách"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[2].ThthangTruoc" id="ThthangTruoc3" oninput="changeThthangTruoc(3)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[2].DuTinh" id="DuTinh3" oninput="changeDuTinh(3)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[2].TongCongDon" id="TongCongDon3" oninput="changeCongDon(3)" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td class="p-1">3.1.Lượt khách ngủ qua đêm
+                  <input type="hidden" id="stt3_1" asp-for="Detail[3].Stt" value="3.1."/>
+                  <input type="hidden" asp-for="Detail[3].TenCt" value="Lượt khách ngủ qua đêm"/>
+              </td>
+              <td class="text-center">Lượt khách
+                  <input type="hidden" asp-for="Detail[3].Dvt" value="Lượt khách"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[3].ThthangTruoc" id="ThthangTruoc3_1" oninput="changeThthangTruoc('3_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[3].DuTinh" id="DuTinh3_1" oninput="changeDuTinh('3_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[3].TongCongDon" id="TongCongDon3_1" oninput="changeCongDon('3_1')" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td class="p-1-1">3.1.1.Trong đó: khách quốc tế
+                  <input type="hidden" id="stt3_1_1" asp-for="Detail[4].Stt" value="3.1.1."/>
+                  <input type="hidden" asp-for="Detail[4].TenCt" value="Trong đó: khách quốc tế"/>
+              </td>
+              <td class="text-center">Lượt khách
+                  <input type="hidden" asp-for="Detail[4].Dvt" value="Lượt khách"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[4].ThthangTruoc" id="ThthangTruoc3_1_1" oninput="changeThthangTruoc('3_1_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[4].DuTinh" id="DuTinh3_1_1" oninput="changeDuTinh('3_1_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[4].TongCongDon" id="TongCongDon3_1_1" oninput="changeCongDon('3_1_1')" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td class="p-1">3.2.Lượt khách trong ngày
+                  <input type="hidden" id="stt3_2" asp-for="Detail[5].Stt" value="3.2."/>
+                  <input type="hidden" asp-for="Detail[5].TenCt" value="Lượt khách trong ngày"/>
+              </td>
+              <td class="text-center">Lượt khách
+                  <input type="hidden" asp-for="Detail[5].Dvt" value="Lượt khách"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[5].ThthangTruoc" id="ThthangTruoc3_2" oninput="changeThthangTruoc('3_2')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[5].DuTinh" id="DuTinh3_2" oninput="changeDuTinh('3_2')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[5].TongCongDon" id="TongCongDon3_2" oninput="changeCongDon('3_2')" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td>4.Số ngày phục vụ khách ( chỉ tính khách có ngủ qua đêm)
+                  <input type="hidden" id="stt4" asp-for="Detail[6].Stt" value="4."/>
+                  <input type="hidden" asp-for="Detail[6].TenCt" value="Số ngày phục vụ khách ( chỉ tính khách có ngủ qua đêm)"/>
+              </td>
+              <td class="text-center">Ngày khách
+                  <input type="hidden" asp-for="Detail[6].Dvt" value="Ngày khách"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[6].ThthangTruoc" id="ThthangTruoc4" oninput="changeThthangTruoc(4)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[6].DuTinh" id="DuTinh4" oninput="changeDuTinh(4)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[6].TongCongDon" id="TongCongDon4" oninput="changeCongDon(4)" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td class="p-1">4.1.Trong đó: khách quốc tế
+                  <input type="hidden" id="stt4_1" asp-for="Detail[7].Stt" value="4.1."/>
+                  <input type="hidden" asp-for="Detail[7].TenCt" value="Trong đó: khách quốc tế"/>
+              </td>
+              <td class="text-center">Ngày khách
+                  <input type="hidden" asp-for="Detail[7].Dvt" value="Ngày khách"/>
+              </td>
+              <td><input type="text"  pattern="[0-9,.\-$]+" required asp-for="Detail[7].ThthangTruoc" id="ThthangTruoc4_1" oninput="changeThthangTruoc('4_1')" class="infomal" /></td>
+              <td><input type="text"  pattern="[0-9,.\-$]+" required asp-for="Detail[7].DuTinh" id="DuTinh4_1" oninput="changeDuTinh('4_1')" class="infomal" /></td>
+              <td><input type="text"  pattern="[0-9,.\-$]+" required readonly asp-for="Detail[7].TongCongDon" id="TongCongDon4_1" oninput="changeCongDon('4_1')" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td>
+                5.Giá phòng bình quân 1 lượt khách thuê trong ngày (thuê theo
+                 <input type="hidden" id="stt5" asp-for="Detail[8].Stt" value="5."/>
+                 <input type="hidden" asp-for="Detail[8].TenCt" value="Giá phòng bình quân 1 lượt khách thuê trong ngày (thuê theo"/>
+              </td>
+              <td class="text-center">Nghìn đồng
+                  <input type="hidden" asp-for="Detail[8].Dvt" value="Nghìn đồng"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[8].ThthangTruoc" id="ThthangTruoc5" oninput="changeThthangTruoc(5)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[8].DuTinh" id="DuTinh5" oninput="changeDuTinh(5)"  class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[8].TongCongDon" id="TongCongDon5" oninput="changeCongDon(5)" class="infomal" /></td>
+            </tr>
+            <tr>
+              <th attr colspan="5">B2. Dịch vụ ăn uống</th>
+            </tr>
+            <tr>
+              <td>6.Doanh thu thuần
+                 <input type="hidden" id="stt6" asp-for="Detail[9].Stt" value="6."/>
+                 <input type="hidden" asp-for="Detail[9].TenCt" value="Doanh thu thuần"/>
+              </td>
+
+              <td class="text-center">Triệu đồng
+                  <input type="hidden" asp-for="Detail[9].Dvt" value="Triệu đồng"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[9].ThthangTruoc" id="ThthangTruoc6" oninput="changeThthangTruoc(6)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[9].DuTinh" id="DuTinh6" oninput="changeDuTinh(6)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[9].TongCongDon" id="TongCongDon6" oninput="changeCongDon(6)" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td class="p-1">6.1.Trong đó: doanh thu thuần hàng chuyên bán
+                 <input type="hidden" id="stt6_1" asp-for="Detail[10].Stt" value="6.1."/>
+                 <input type="hidden" asp-for="Detail[10].TenCt" value="Trong đó: doanh thu thuần hàng chuyên bán"/>
+              </td>
+              <td class="text-center">Triệu đồng
+                  <input type="hidden" asp-for="Detail[10].Dvt" value="Triệu đồng"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[10].ThthangTruoc" id="ThthangTruoc6_1" oninput="changeThthangTruoc('6_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[10].DuTinh" id="DuTinh6_1" oninput="changeDuTinh('6_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[10].TongCongDon" id="TongCongDon6_1" oninput="changeCongDon('6_1')" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td>
+                7.Trị giá vốn của hàng chuyên bán (tương ứng với doanh thu hàng
+                tháng)
+                 <input type="hidden" id="stt7" asp-for="Detail[11].Stt" value="7."/>
+                 <input type="hidden" asp-for="Detail[11].TenCt" value="Trị giá vốn của hàng chuyên bán (tương ứng với doanh thu hàng
+                tháng)"/>
+              </td>
+              <td class="text-center">Triệu đồng
+                  <input type="hidden" asp-for="Detail[11].Dvt" value="Triệu đồng"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[11].ThthangTruoc" id="ThthangTruoc7" oninput="changeThthangTruoc(7)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[11].DuTinh" id="DuTinh7" oninput="changeDuTinh(7)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[11].TongCongDon" id="TongCongDon7" oninput="changeCongDon(7)" class="infomal" /></td>
+            </tr>
+            <tr>
+              <th attr colspan="5">
+                B3. Dịch vụ lữ hành và hoạt động hỗ trợ du lịch
+              </th>
+            </tr>
+            <tr>
+              <td>8.Doanh thu thuần
+                  <input type="hidden" id="stt8" asp-for="Detail[12].Stt" value="8."/>
+                  <input type="hidden" asp-for="Detail[12].TenCt" value="Doanh thu thuần"/>
+              </td>
+              <td class="text-center">Triệu đồng
+                  <input type="hidden" asp-for="Detail[12].Dvt" value="Triệu đồng"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[12].ThthangTruoc" id="ThthangTruoc8" oninput="changeThthangTruoc(8)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[12].DuTinh" id="DuTinh8" oninput="changeDuTinh(8)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[12].TongCongDon" id="TongCongDon8" oninput="changeCongDon(8)" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td class="p-1">
+                8.1.Trong đó: doanh thu thuần điều hành (tuor) du lịch
+                  <input type="hidden" id="stt8_1" asp-for="Detail[13].Stt" value="8.1."/>
+                  <input type="hidden" asp-for="Detail[13].TenCt" value="Trong đó: doanh thu thuần điều hành (tuor) du lịch"/>
+              </td>
+              <td class="text-center">Triệu đồng
+                  <input type="hidden" asp-for="Detail[13].Dvt" value="Triệu đồng"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[13].ThthangTruoc" id="ThthangTruoc8_1" oninput="changeThthangTruoc('8_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[13].DuTinh" id="DuTinh8_1" oninput="changeDuTinh('8_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[13].TongCongDon" id="TongCongDon8_1" oninput="changeCongDon('8_1')" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td>9.Lượt khách du lịch theo tuor
+                  <input type="hidden" id="stt9" asp-for="Detail[14].Stt" value="9."/>
+                  <input type="hidden" asp-for="Detail[14].TenCt" value="Lượt khách du lịch theo tuor"/>
+              </td>
+              <td class="text-center">Lượt khách
+                  <input type="hidden" asp-for="Detail[14].Dvt" value="Lượt khách"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[14].ThthangTruoc" id="ThthangTruoc9" oninput="changeThthangTruoc(9)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[14].DuTinh" id="DuTinh9" oninput="changeDuTinh(9)" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[14].TongCongDon" id="TongCongDon9" oninput="changeCongDon(9)" class="infomal" /></td>
+            </tr>
+            <tr>
+              <th attr colspan="5">Chia ra:</th>
+            </tr>
+            <tr>
+              <td class="p-1">9.1.Lượt khách quốc tế
+                  <input type="hidden" id="stt9_1" asp-for="Detail[15].Stt" value="9.1."/>
+                  <input type="hidden" asp-for="Detail[15].TenCt" value="Lượt khách quốc tế"/>
+              </td>
+              <td class="text-center">Lượt khách
+                  <input type="hidden" asp-for="Detail[15].Dvt" value="Lượt khách"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[15].ThthangTruoc" id="ThthangTruoc9_1" oninput="changeThthangTruoc('9_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[15].DuTinh" id="DuTinh9_1" oninput="changeDuTinh('9_1')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[15].TongCongDon" id="TongCongDon9_1" oninput="changeCongDon('9_1')" class="infomal" /></td>
+            </tr>
+            <tr>
+              <td class="p-1">9.2.Lượt khách Việt Nam đi trong nước
+                  <input type="hidden" id="stt9_2" asp-for="Detail[16].Stt" value="9.2."/>
+                  <input type="hidden" asp-for="Detail[16].TenCt" value="Lượt khách Việt Nam đi trong nước"/>
+              </td>
+              <td class="text-center">Lượt khách
+                  <input type="hidden" asp-for="Detail[16].Dvt" value="Lượt khách"/>
+              </td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[16].ThthangTruoc" id="ThthangTruoc9_2" oninput="changeThthangTruoc('9_2')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required asp-for="Detail[16].DuTinh" id="DuTinh9_2" oninput="changeDuTinh('9_2')" class="infomal" /></td>
+              <td><input type="text" pattern="[0-9,.\-$]+" required readonly asp-for="Detail[16].TongCongDon" id="TongCongDon9_2" oninput="changeCongDon('9_2')" class="infomal" /></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="form-group m-title text-center">
+          <h5 style="margin-top: .5rem;"><b>C. CÁC YẾU TỔ ẢNH HƯỞNG ĐẾN HOẠT ĐỘNG KINH DOANH</b></h5>
+        </div>
+        <div class="form-group">
+          <label for=""
+            >Yếu tố nào sau đây ảnh hưởng đến hoạt động kinh doanh của đơn vị
+            trong tháng ...</label
+          >
+          <div class="YTAH">
+            <div class="YTAH-tt">
+              <label for="">1. Nhu cầu thị trường</label>
+              <label for="">2. Dịch bệnh</label>
+              <label for="">3. Thời tiết</label>
+              <label for="">4. Ảnh hưởng mùa vụ</label>
+              <label for="">5. Thay đổi nhân sự</label>
+              <label for="">6. Thay đổi kĩ thuật/công nghệ/phương tiện</label>
+              <label for="">7. Nguồn vốn kinh doanh</label>
+              <label for="">8. Thay đổi địa điểm/thị trường kinh doanh</label>
+              <label for="">9. Lý do khác: ghi rõ</label>
+            </div>
+            <div class="YTAH-check">
+                    <input type="checkbox" id="DanhSachNhanToAnhHuong_0" name="DanhSachNhanToAnhHuong_0" value="01" />
+                    <input type="checkbox" id="DanhSachNhanToAnhHuong_1" name="DanhSachNhanToAnhHuong_1" value="02" />
+                    <input type="checkbox" id="DanhSachNhanToAnhHuong_2" name="DanhSachNhanToAnhHuong_2" value="03" />
+                    <input type="checkbox" id="DanhSachNhanToAnhHuong_3" name="DanhSachNhanToAnhHuong_3" value="04" />
+                    <input type="checkbox" id="DanhSachNhanToAnhHuong_4" name="DanhSachNhanToAnhHuong_4" value="05" />
+                    <input type="checkbox" id="DanhSachNhanToAnhHuong_5" name="DanhSachNhanToAnhHuong_5" value="06"/>
+                    <input type="checkbox" id="DanhSachNhanToAnhHuong_6" name="DanhSachNhanToAnhHuong_6" value="07" />
+                    <input type="checkbox" id="DanhSachNhanToAnhHuong_7" name="DanhSachNhanToAnhHuong_7" value="08" />
+                @if (Model.NhanToThu9 == null)
+                {
+                  <input type="checkbox" id="YT9" value="" />
+                }
+                else
+                {
+                       <input type="checkbox" checked id="YT9" value="" />
+                }
+            </div>
+          </div>
+          <div class="YTAH9">
+           <textarea asp-for="@Model.NhanToThu9.NoiDung"
+              class="form-control"
+              rows="1"
+              id="comment"
+              name="NhanToThu9.NoiDung"
+              disabled
+            ></textarea>
+          </div>
+        </div>
+        <div class="form-group uname-info">
+          <div class="row">
+            <label class="uname-lb">Họ tên người trả lời:</label>
+            <input type="text" name="Master.TenNguoiTraLoi" id="" asp-for="@Model.Master.TenNguoiTraLoi" class="infoma" />
+          </div>
+          <div class="row">
+            <label class="uname-lb">Số điện thoại:</label>
+            <input type="text" name="Master.SdtnguoiTraLoi" id="" asp-for="@Model.Master.SdtnguoiTraLoi" class="infoma" />
+          </div>
+        </div>
+        <div class="group-btn" style="justify-content: end;">
+          <select name="loai" style="margin-right:10px">
+              <option value="0">Chọn file cần xuất</option>
+              <option value="1">Xuất File PDF</option>
+              <option value="2">Xuất File Excel</option>
+              <option value="3">Xuất cả 2</option>
+          </select>
+          <button type="submit" value="false" class="btn btn-primary">Lưu</button>
+        </div>
+    
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script type="text/javascript">
+    var citis = document.getElementById("city");
+var districts = document.getElementById("district");
+var wards = document.getElementById("ward");
+var Parameter = {
+  url: '@Html.Raw(getLink())',
+  method: "GET", 
+  responseType: "application/json", 
+};
+var promise = axios(Parameter);
+promise.then(function (result) {
+  renderCity(result.data);
+});
+
+function renderCity(data) {
+  for (const x of data) {
+    citis.options[citis.options.length] = new Option(x.Name, x.Id);
+  }
+  citis.onchange = function () {
+    district.length = 1;
+    ward.length = 1;
+    if(this.value != ""){
+      const result = data.filter(n => n.Id === this.value);
+
+      for (const k of result[0].Districts) {
+        district.options[district.options.length] = new Option(k.Name, k.Id);
+      }
+    }
+  };
+  district.onchange = function () {
+    ward.length = 1;
+    const dataCity = data.filter((n) => n.Id === citis.value);
+    if (this.value != "") {
+      const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+
+      for (const w of dataWards) {
+        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+      }
+    }
+  };
+}
+
+$('.infomal').on('blur', format);
+function format(){
+    if(checkNumber(this.value)){
+        const value = this.value.replace(/,/g, '');
+        this.value = parseFloat(value).toLocaleString('en-US', {
+        style: 'decimal',
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2
+            })
+    }
+}
+
+    function changeThthangTruoc(tt){
+
+        var value = getValue($('#ThthangTruoc'+tt).val());
+
+        if(checkNumber(value)){
+            var stt = $('#stt'+tt).val();        
+            var mst = $('#MST1').val();
+            var duTinh = $('#DuTinh'+tt).val();
+            var thangDuTinh = $('#phieuThang').val();
+            var nam = $('#phieuNam').val();
+            $.ajax({
+                type: 'POST',
+                url: '/get-tong1',
+                data: "mast=" + mst + "&stt="+stt+"&thangTrc="+value+"&duTinh="+duTinh+"&thangDuTinh="+thangDuTinh+"&nam="+nam,
+                success: function (result) {
+                    $('#TongCongDon'+tt).val(
+                        parseFloat(result).toLocaleString('en-US', {
+                        style: 'decimal',
+                        maximumFractionDigits: 2,
+                        minimumFractionDigits: 2
+                      })
+                    );
+                    changeCongDon(result,tt);
+                },
+               error: function (result) {
+               alert('Mã số thuế không tồn tại!');
+             }
+            });
+          }
+        if (tt == 2 || tt == 6 || tt == 8) {
+            var tong = 0;
+             var value2 = getValue($('#ThthangTruoc'+2).val());
+            if(checkNumber(value2)){
+                tong = tong + value2;
+            }
+            var value8 = getValue($('#ThthangTruoc'+8).val());
+            if(checkNumber(value8)){
+                tong = tong + value8;
+            }
+            var value6 = getValue($('#ThthangTruoc'+6).val());
+            if(checkNumber(value6)){
+                tong = tong + value6;
+            }
+            $("#ThthangTruoc0").val(
+            parseFloat(tong).toLocaleString('en-US', {
+                        style: 'decimal',
+                        maximumFractionDigits: 2,
+                        minimumFractionDigits: 2
+                      })
+            );
+        }
+    }
+    function changeDuTinh(tt){
+
+
+        var value = parseFloat($('#DuTinh'+tt).val());
+
+        if(checkNumber(value)){
+            var stt = $('#stt'+tt).val();        
+            var mst = $('#MST1').val();
+            var duTinh = $('#ThthangTruoc'+tt).val();
+            var thangDuTinh = $('#phieuThang').val();
+            var nam = $('#phieuNam').val();
+            $.ajax({
+                type: 'POST',
+                url: '/get-tong1',
+                data: "mast=" + mst + "&stt="+stt+"&thangTrc="+value+"&duTinh="+duTinh+"&thangDuTinh="+thangDuTinh+"&nam="+nam,
+                success: function (result) {
+                    $('#TongCongDon'+tt).val(
+                        parseFloat(result).toLocaleString('en-US', {
+                        style: 'decimal',
+                        maximumFractionDigits: 2,
+                        minimumFractionDigits: 2
+                      })
+                    );
+                    changeCongDon(result,tt);
+                },
+               error: function (result) {
+               alert('Mã số thuế không tồn tại!');
+             }
+            });
+          }
+          if (tt == 2 || tt == 6 || tt == 8 ) {
+            var tong = 0;
+            var value2 = getValue($('#DuTinh'+2).val());
+            if(checkNumber(value2)){
+                tong = tong + value2;
+            }
+            var value8 = getValue($('#DuTinh'+8).val());
+            if(checkNumber(value8)){
+                tong = tong + value8;
+            }
+            var value6 = getValue($('#DuTinh'+6).val());
+            if(checkNumber(value6)){
+                tong = tong + value6;
+            }
+            $("#DuTinh0").val(
+            parseFloat(tong).toLocaleString('en-US', {
+                        style: 'decimal',
+                        maximumFractionDigits: 2,
+                        minimumFractionDigits: 2
+                      })
+            );
+        }
+    }
+
+    function changeCongDon(result,tt){
+
+        if(tt == 2 || tt == 6 || tt == 8){
+            var tong = 0;
+            if(checkNumber($('#TongCongDon2').val())){
+                tong = tong + getValue($('#TongCongDon2').val());
+            }
+            if(checkNumber($('#TongCongDon8').val())){
+                tong = tong + getValue($('#TongCongDon8').val());
+            }
+            if(checkNumber($('#TongCongDon6').val())){
+                tong = tong + getValue($('#TongCongDon6').val());
+            }
+
+            $("#TongCongDon0").val(
+                parseFloat(tong).toLocaleString('en-US', {
+                        style: 'decimal',
+                        maximumFractionDigits: 2,
+                        minimumFractionDigits: 2
+                      })
+            );
+        }
+    }
+        $(document).ready(function(){
+          let ms = $('#Maphieu').val();
+          let mst = $('#MST1').val();
+          if(ms!=undefined){
+                $.ajax({
+                    type: 'POST',
+                    url: '/loadMaster1',
+                    data: "ms=" + ms +"&mast=" + mst,
+                    success: function (result) {
+                        $('#ThongTinDoanhNghiepGroup').replaceWith(result);
+                    },
+                    error: function (result) {
+                        alert('Mã số thuế không tồn tại!');
+             }
+            });
+          }
+            var a = [@Html.Raw(getArray())];
+            a.forEach(myFunction);
+            $('.infomal').each(format);
+    })
+    $(window).scroll(function(){
+
+    })
+
+    function myFunction(item, index) {
+        for(var i =0 ;i<=7;i++){
+                if($('#DanhSachNhanToAnhHuong_'+i).val()== item){
+                    $('#DanhSachNhanToAnhHuong_'+i).prop('checked', true);
+                }
+        }
+    }
+    function checkNumber(str) {
+        return /[0-9,.\-$]+/.test(str);
+    }
+    function getValue(str){
+       return Number(str.replace(/[^0-9.-]+/g,""));
+    }
+    function doiPhieu(mst1,mst2){
+        var thang = $('#phieuThang').val();
+        var nam = $('#phieuNam').val();
+        var s = "@Html.Raw(ViewBag.LoaiPhieu)";
+        $.ajax({
+                    type: 'POST',
+                    url: '/get-tableTTDN',
+                    data: "thang=" + thang + "&nam="+nam + "&loaiPhieu=" +s,
+                    success: function (result) {
+                        $('#tableQLTT').replaceWith(result);
+                    },
+                    error: function (result) {
+                        alert('Mã số thuế không tồn tại!');
+             }
+       });
+          $.ajax({
+                    type: 'POST',
+                    url: '/changePhieu1_2',
+                    data: "thang=" + thang + "&nam="+nam + "&mst1="+mst1+"&mst2="+mst2,
+                    success: function (result) {
+                        $('#form').replaceWith(result);
+                            let kq = "@User.IsInRole("001")"
+                            if(kq=="True"){
+                                $('#bodyDiv').addClass("col-lg-12");
+                                $('#form').addClass("form");
+                                $('#tableQLTT').css("display","block");
+                                $('.MS').prop('readonly', false);
+                            }else{
+                                $('#tableQLTT').css("display","none");
+                                $('#form').addClass("form1");
+                                $('.MS').prop('readonly', true);
+                            }
+
+                    },
+                    error: function (result) {
+                        alert('Mã số thuế không tồn tại!');
+             }
+            });
+    }
+    var strMS = "";
+    function AddMS(item){
+        strMS += item;
+    }
+
+    $(".MS").keyup(function() {
+
+        var valueArr = [];
+                document.querySelectorAll('.MS').forEach(function(el){
+                valueArr.push(el.value);
+            });
+        strMS = "";
+        valueArr.forEach(AddMS)
+        $('#MST1').val(strMS);
+        if(strMS.length==13){
+             if ($('label.P-name b').text().includes('2.') == false) {
+                $.ajax({
+                type: 'POST',
+             url: '/loadMaster',
+             data: "ms=" + strMS,
+             success: function (result) {
+              $('#ThongTinDoanhNghiepGroup').replaceWith(result);
+              if($('#tenPhieu').val()==='1.1'){
+                            $.ajax({
+                                type: 'POST',
+                                url: '/loadTable1-1',
+                                data: "ms=" + strMS,
+                                success: function (result) {
+                                    $('#tab-KQ').replaceWith(result);
+                                },
+                               error: function (result) {
+                               // alert('Mã số thuế không tồn tại!');
+                             }
+                        });
+                        }else if($('label.P-name b').text().includes('1.4')){
+                          $.ajax({
+                                type: 'POST',
+                                url: '/loaddata_14B',
+                                data: "ms=" + strMS,
+                                success: function (result) {
+                                    $('#table-data1_4').replaceWith(result);
+                                },
+                               error: function (result) {
+                               // alert('Mã số thuế không tồn tại!'); 
+                             }
+                        });
+                        }
+            },
+            error: function (result) {
+              alert('Mã số thuế không tồn tại!');
+            }
+          });
+        } else {
+          $.ajax({
+            type: 'POST',
+            url: '/loadMaster2',
+            data: "ms=" + strMS,
+            success: function (result) {
+              $('#ThongTinDoanhNghiepGroup').replaceWith(result);
+              $('#MST1').val(strMS);
+              if ($('label.P-name b').text().includes('2.1')) {
+                  $.ajax({
+                    type: 'POST',
+                    url: '/loaddata_21B',
+                    data: "ms=" + strMS,
+                    success: function (result) {
+                        $('#table-data').replaceWith(result);
+                    },
+                    error: function (result) {
+                    }
+                  });
+                }
+                else if($('label.P-name b').text().includes('2.3')){
+                          $.ajax({
+                                type: 'POST',
+                                url: '/loaddata_2_3',
+                                data: "ms=" + strMS,
+                                success: function (result) {
+                                    $('#table-data').replaceWith(result);
+                                },
+                               error: function (result) {
+                               // alert('Mã số thuế không tồn tại!'); 
+                             }
+                        });
+                        }
+
+            },
+            error: function (result) {
+              alert('Mã số thuế không tồn tại!');
+            }
+          });
+        }
+        /** end */
+        }
+    });
+
+</script>
+  </form>
+            <div id="tableQLTT" class="form-QLTT" style="overflow: scroll;">
+        <div class="head-group">
+          <div class="title text-center">
+            <h5 class="title-first"><b>DANH SÁCH CƠ SỞ</b></h5>
+            <label class="title-last"
+              ><i>Nhấn vào dòng cơ sở để nhập tin</i></label
+            >
+          </div>
+          <div class="group-radio-btn row">
+            <div class="check-form">
+              <i class="bi bi-circle-fill" style="color: rgb(0, 160, 255)"></i>
+              <label class="text-primary">Đã điều tra</label>
+            </div>
+            <div class="check-form" style="margin-left: 5px">
+              <i class="bi bi-circle-fill" style="color: white"></i>
+              <label>Chưa điều tra</label>
+            </div>
+            <div class="check-form" style="margin-left: 5px">
+              <i class="bi bi-circle-fill" style="color: rgb(215, 70, 0)"></i>
+              <label class="text">Không điều tra</label>
+            </div>
+          </div>
+        </div>
+        <table id="example" class="table table-bordered table-hover" style="max-height: 100%;">
+          <thead>
+            <tr class="text-center tab-title" style="background-color: #fff3bd;">
+              <th class="th1">Điều tra</th>
+              <th class="th2">Mã ĐB</th>
+              <th class="th3">Cơ sở số</th>
+              <th class="th4">Tên cơ sở</th>
+            </tr>
+          </thead>
+          <tbody id="tBody">
+            @foreach (ThongTinDoanhNghiep m in @getTable())
+            {
+                @if (count(m.MaSoThue, m.MaSoThue2, toStringMonth(Int32.Parse(ViewBag.thang)), ViewBag.nam) > 0)
+                {
+                              <tr style="background-color: rgb(0, 160, 255); cursor:pointer;" onclick="doiPhieu('@m.MaSoThue','@m.MaSoThue2')">
+                                  <td class="text-center">1</td>
+                                  <td class="text-center">@m.MaSoThue</td>
+                                  <td class="text-center">@m.MaSoThue2</td>
+                                  <td class="text-center">@m.TenDoanhNghiep</td>
+                            </tr>
+                }
+                else
+                {
+                               <tr style="cursor:pointer;" onclick="doiPhieu('@m.MaSoThue','@m.MaSoThue2')">
+                                  <td class="text-center">1</td>
+                                  <td class="text-center">@m.MaSoThue</td>
+                                  <td class="text-center">@m.MaSoThue2</td>
+                                  <td class="text-center">@m.TenDoanhNghiep</td>
+                               </tr>
+                }
+            }
+          </tbody>
+        </table>
+      </div>

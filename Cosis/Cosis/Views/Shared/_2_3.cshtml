@@ -1,0 +1,540 @@
+﻿@using Cosis.Models
+
+@{
+    var context = new FormCosisContext();
+    NganhHoatDongKinhDoanh getNganhHoatDongKinhDoanh(string ma)
+    {
+        return context.NganhHoatDongKinhDoanh.Where(x => x.MaNganh == ma).FirstOrDefault();
+    }
+}
+ <tbody id="table-data">
+            <tr class="text-center">
+              <td>A</td>
+              <td>B</td>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>
+                1. 2_3.Ông/bà vui lòng cho biết tổng số tiền thu về (bao gồm cả vốn
+                và lãi) của cơ sở trong [tháng trước] và [tháng báo cáo] là bao
+                nhiêu?
+                 <input type="hidden" id="stt0" name="Detail[0].Stt" value="1."/>
+                 <input type="hidden" name="Detail[0].TenCt" value="Ông/bà vui lòng cho biết tổng số tiền thu về (bao gồm cả vốn
+                và lãi) của cơ sở trong [tháng trước] và [tháng báo cáo] là bao
+                nhiêu?"/>  
+              </td>
+              <td class="text-center">Triệu đồng
+                <input type="hidden" name="Detail[0].Dvt" value="0 Triệu đồng"/> 
+              </td>
+              <td><input type="text" id="ThthangTruoc0" oninput="changeThthangTruoc(0)" name="Detail[0].ThthangTruoc" class="infomal" /></td>
+              <td><input type="text" id="DuTinh0" oninput="changeDuTinh(0)" name="Detail[0].DuTinh" class="infomal" /></td>
+              <td><input type="text" id="TongCongDon0" name="Detail[0].TongCongDon" class="infomal" /></td>
+            </tr>
+    @{
+        int i = 0;
+        int countDetails = 1;
+    
+         @foreach (var item in @ViewBag.ListNghanh)
+    {
+                <tr>
+                  <td>
+                    2.@countDetails Trong tổng số tiền thu về của cơ sở, số tiền thu về do cung
+                            cấp dịch vụ <b>@getNganhHoatDongKinhDoanh(@item.MaNganh).TenNganh</b> của [tháng trước] và [tháng báo
+                    cáo] là bao nhiêu?
+                                         <input type="hidden" id="stt2_@countDetails" name="Detail[@countDetails].Stt" value="2.@(countDetails)"/>
+                                         <input type="hidden" name="Detail[@countDetails].TenCt" value="Trong tổng số tiền thu về của cơ sở, số tiền thu về do cung
+                                cấp dịch vụ @getNganhHoatDongKinhDoanh(@item.MaNganh).TenNganh của [tháng trước] và [tháng báo
+                        cáo] là bao nhiêu?"/>  
+                      
+                  </td>
+                  <td class="text-center">Triệu đồng
+                  <input type="hidden" name="Detail[@countDetails].Dvt" value="@countDetails Triệu đồng"/>
+                  </td>
+                  
+                   <td><input type="text" id="ThthangTruoc2_@(countDetails)" oninput="changeThthangTruoc(2_@(countDetails))" name="Detail[@(countDetails)].ThthangTruoc" class="infomal" /></td>
+                   <td><input type="text" id="DuTinh2_@(countDetails)" oninput="changeDuTinh(2_@(countDetails)" name="Detail[@(countDetails)].DuTinh" class="infomal" /></td>
+                   <td><input type="text" id="TongCongDon2_@(countDetails)" name="Detail[@(countDetails)].TongCongDon" class="infomal" /></td>
+            </tr>
+        i++;
+        countDetails++;
+    }
+            
+                <tr class="text-left">
+                  <td colspan="5">I. HOẠT ĐỘNG VẬN TẢI HÀNH KHÁCH</td>
+                  
+                </tr>
+                <tr>
+
+                  <td>
+                    3. Cơ sở có bao nhiêu phương tiện đang sử dụng để phục vụ cho
+                    hoạt động vận tải hành khách trong [tháng trước] và dự tính
+                    [tháng báo cáo]?
+                        <input type="hidden" id="stt3" name="Detail[@countDetails].Stt" value="3."/>
+                        <input type="hidden" name="Detail[@countDetails].TenCt" value="Cơ sở có bao nhiêu phương tiện đang sử dụng để phục vụ cho
+                        hoạt động vận tải hành khách trong [tháng trước] và dự tính
+                        [tháng báo cáo]?"/>  
+                  </td>
+                  <td class="text-center">Cái
+                  <input type="hidden" name="Detail[@countDetails].Dvt" value="@countDetails Cái"/>
+                  </td>
+                      <td><input type="text" id="ThthangTruoc3" oninput="changeThthangTruoc(3)" name="Detail[@(countDetails)].ThthangTruoc" class="infomal" /></td>
+                       <td><input type="text" id="DuTinh3" oninput="changeDuTinh(3)" name="Detail[@(countDetails)].DuTinh" class="infomal" /></td>
+                       <td><input type="text" id="TongCongDon3" name="Detail[@(countDetails)].TongCongDon" class="infomal" /></td>
+                </tr>
+                <tr class="text-left">
+                
+                  <td>
+                    4. @(countDetails+1) Tổng số ghế của tất cả các phương tiện trên là bao nhiêu?
+                         <input type="hidden" id="stt4" name="Detail[@(countDetails+1)].Stt" value="4."/>
+                         <input type="hidden" name="Detail[@(countDetails+1)].TenCt" value="Tổng số ghế của tất cả các phương tiện trên là bao nhiêu?"/>  
+                  </td>
+                  <td class="text-center">Ghế
+                               <input type="hidden" name="Detail[@(countDetails+1)].Dvt" value="@(countDetails+1) ghế"/>
+                   </td>
+                      <td><input type="text" id="ThthangTruoc4" oninput="changeThthangTruoc(4)" name="Detail[@(countDetails+1)].ThthangTruoc" class="infomal" /></td>
+                      <td><input type="text" id="DuTinh4" oninput="changeDuTinh(4)" name="Detail[@(countDetails+1)].DuTinh" class="infomal" /></td>
+                      <td><input type="text" id="TongCongDon4" name="Detail[@(countDetails+1)].TongCongDon" class="infomal" /></td>
+                </tr>
+                <tr class="text-left">
+                      <td>5. @(countDetails+2) Cơ sở có vận chuyển hành khách ngoài nước không?
+                          <input type="hidden" id="stt5" name="Detail[@(countDetails+2)].Stt" value="5."/>
+                              <input type="hidden" name="Detail[@(countDetails+2)].TenCt" value="Cơ sở có vận chuyển hành khách ngoài nước không?"/>  
+                      </td>
+                  <td></td>
+                  <td class="text-center">
+                    1. Có <input type="radio" name="chose1" id="5" />
+                  </td>
+                  <td class="text-center">
+                    2. Không <input type="radio" name="chose1" id="5-1" />
+                  </td>
+                </tr>
+        <tr class="text-left">
+            <td>
+                6. Số chyến vận chuyển khách trong [tháng trước] và [tháng báo
+                cáo] của cơ sở là bao nhiêu?
+                    <input type="hidden" id="stt6" name="Detail[@(countDetails+2)].Stt" value="6."/>
+                    <input type="hidden" name="Detail[@(countDetails+2)].TenCt" value="Số chyến vận chuyển khách trong [tháng trước] và [tháng báo
+                    cáo] của cơ sở là bao nhiêu?"/>  
+            </td>
+            <td class="text-center">Chuyến
+                     <input type="hidden" name="Detail[@(countDetails+2)].Dvt" value="@(countDetails+2) Chuyến"/>
+            </td>
+            <td><input type="text" id="ThthangTruoc6" oninput="changeThthangTruoc(6)" name="Detail[@(countDetails+2)].ThthangTruoc" class="infomal" /></td>
+            <td><input type="text" id="DuTinh6" oninput="changeDuTinh(6)" name="Detail[@(countDetails+2)].DuTinh" class="infomal" /></td>
+            <td><input type="text" id="TongCongDon6" name="Detail[@(countDetails+2)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left changed1">
+            <td>
+                6.1 Trong đó, số chuyến vận chuyển ngoài nước là bao nhiêu?
+                (Hiển thị nếu có câu 5 = 1 "CÓ")
+                     <input type="hidden" id="stt6_1" name="Detail[@(countDetails+3)].Stt" value="6.1."/>
+                     <input type="hidden" name="Detail[@(countDetails+3)].TenCt" value="Trong đó, số chuyến vận chuyển ngoài nước là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Chuyến
+                <input type="hidden" name="Detail[@(countDetails+3)].Dvt" value="@(countDetails+3) Chuyến"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc6_1" oninput="changeThthangTruoc(6_1)" name="Detail[@(countDetails+3)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh6_1" oninput="changeDuTinh(6_1)" name="Detail[@(countDetails+3)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon6_1" name="Detail[@(countDetails+3)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                7. Số khách bình quân/chuyến trong [tháng trước] và [tháng báo
+                cáo] là bao nhiêu?
+                    <input type="hidden" id="stt7" name="Detail[@(countDetails+4)].Stt" value="7."/>
+                    <input type="hidden" name="Detail[@(countDetails+4)].TenCt" value="Số khách bình quân/chuyến trong [tháng trước] và [tháng báo
+                    cáo] là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Hành khách
+                    <input type="hidden" name="Detail[@(countDetails+4)].Dvt" value="@(countDetails+4) Hành khách"/>
+            </td>
+            <td><input type="text" id="ThthangTruoc7" oninput="changeThthangTruoc(7)" name="Detail[@(countDetails+4)].ThthangTruoc" class="infomal" /></td>
+            <td><input type="text" id="DuTinh7" oninput="changeDuTinh(7)" name="Detail[@(countDetails+4)].DuTinh" class="infomal" /></td>
+            <td><input type="text" id="TongCongDon7" name="Detail[@(countDetails+4)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                7.1 Trong đó, số khách bình quân 1 chuyến vận chuyển ngoài nước
+                là bao nhiêu?
+                     <input type="hidden" id="stt7_1" name="Detail[@(countDetails+5)].Stt" value="7.1."/>
+                     <input type="hidden" name="Detail[@(countDetails+5)].TenCt" value="Trong đó, số khách bình quân 1 chuyến vận chuyển ngoài nước
+                    là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Hành khách
+                <input type="hidden" name="Detail[@(countDetails+5)].Dvt" value="@(countDetails+5) Hành khách"/>
+             </td>
+                <td><input type="text" id="ThthangTruoc7_1" oninput="changeThthangTruoc(7_1)" name="Detail[@(countDetails+5)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh7_1" oninput="changeDuTinh(7_1)" name="Detail[@(countDetails+5)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon7_1" name="Detail[@(countDetails+5)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                8. Số km bình quân 1 chuyến mà các phương tiện có vận chuyển
+                khách trong [tháng trước] và [tháng báo cáo] là bao nhiêu?
+                    <input type="hidden" id="stt8" name="Detail[@(countDetails+6)].Stt" value="8."/>
+                    <input type="hidden" name="Detail[@(countDetails+6)].TenCt" value="Số km bình quân 1 chuyến mà các phương tiện có vận chuyển
+                    khách trong [tháng trước] và [tháng báo cáo] là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Km
+                 <input type="hidden" name="Detail[@(countDetails+6)].Dvt" value="@(countDetails+6) km"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc8" oninput="changeThthangTruoc(8)" name="Detail[@(countDetails+6)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh8" oninput="changeDuTinh(8)" name="Detail[@(countDetails+6)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon8" name="Detail[@(countDetails+6)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                8.1 Trong đó, số km bình quân 1 chuyến vận chuyển ngoài nước là
+                bao nhiêu?
+                    <input type="hidden" id="stt8_1" name="Detail[@(countDetails+7)].Stt" value="8.1."/>
+                    <input type="hidden" name="Detail[@(countDetails+7)].TenCt" value="Trong đó, số km bình quân 1 chuyến vận chuyển ngoài nước là
+                    bao nhiêu?"/>
+            </td>
+            <td class="text-center">Km
+                <input type="hidden" name="Detail[@(countDetails+7)].Dvt" value="@(countDetails+7) km"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc8_1" oninput="changeThthangTruoc(8_1)" name="Detail[@(countDetails+7)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh8_1" oninput="changeDuTinh(8_1)" name="Detail[@(countDetails+7)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon8_1" name="Detail[@(countDetails+7)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>9. SỐ LƯỢT HÀNH KHÁCH VẬN CHUYỂN
+                 <input type="hidden" id="stt9" name="Detail[@(countDetails+8)].Stt" value="9."/>
+                 <input type="hidden" name="Detail[@(countDetails+8)].TenCt" value="SỐ LƯỢT HÀNH KHÁCH VẬN CHUYỂN"/>
+            </td>
+            <td class="text-center">Hành khách
+                 <input type="hidden" name="Detail[@(countDetails+8)].Dvt" value="@(countDetails+8) Hành khách"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc9" oninput="changeThthangTruoc(9)" name="Detail[@(countDetails+8)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh9" oninput="changeDuTinh(9)" name="Detail[@(countDetails+8)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon9" name="Detail[@(countDetails+8)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="changed1">
+            <td>9.1 TRONG ĐÓ, SỐ LƯỢT HÀNH KHÁCH VẬN CHUYỂN NGOÀI NƯỚC
+                <input type="hidden" id="stt9_1" name="Detail[@(countDetails+9)].Stt" value="9.1."/>
+                <input type="hidden" name="Detail[@(countDetails+9)].TenCt" value="TRONG ĐÓ, SỐ LƯỢT HÀNH KHÁCH VẬN CHUYỂN NGOÀI NƯỚC"/>
+            </td>
+            <td class="text-center">Hành khách
+                <input type="hidden" name="Detail[@(countDetails+9)].Dvt" value="@(countDetails+9) Hành khách"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc9_1" oninput="changeThthangTruoc(9_1)" name="Detail[@(countDetails+9)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh9_1" oninput="changeDuTinh(9_1)" name="Detail[@(countDetails+9)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon9_1" name="Detail[@(countDetails+9)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>10. SỐ LƯỢT HÀNH KHÁCH LUÂN CHUYỂN
+                <input type="hidden" id="stt10" name="Detail[@(countDetails+10)].Stt" value="10."/>
+                <input type="hidden" name="Detail[@(countDetails+10)].TenCt" value="SỐ LƯỢT HÀNH KHÁCH LUÂN CHUYỂN"/>
+            </td>
+            <td class="text-center">Hành khách.Km
+               <input type="hidden" name="Detail[@(countDetails + 10)].Dvt" value="@(countDetails + 10) Hành khách.km"/>
+            </td>
+            <td><input type="text" id="ThthangTruoc10" oninput="changeThthangTruoc(10)" name="Detail[@(countDetails+10)].ThthangTruoc" class="infomal" /></td>
+            <td><input type="text" id="DuTinh10" oninput="changeDuTinh(10)" name="Detail[@(countDetails+10)].DuTinh" class="infomal" /></td>
+            <td><input type="text" id="TongCongDon10" name="Detail[@(countDetails+10)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left changed1">
+            <td>
+                10.1 TRONG ĐÓ, SỐ LƯỢT HÀNH KHÁCH VẬN LUÂN CHUYỂN NGOÀI NƯỚC
+                (Hiển thị nếu câu 5=1 "CÓ")
+                    <input type="hidden" id="stt10_1" name="Detail[@(countDetails+11)].Stt" value="10.1."/>
+                    <input type="hidden" name="Detail[@(countDetails+11)].TenCt" value="TRONG ĐÓ, SỐ LƯỢT HÀNH KHÁCH VẬN LUÂN CHUYỂN NGOÀI NƯỚC"/>
+            </td>
+            <td class="text-center">Hành khách.Km
+                <input type="hidden" name="Detail[@(countDetails + 11)].Dvt" value="@(countDetails + 11) Hành khách.km"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc10_1" oninput="changeThthangTruoc(10_1)" name="Detail[@(countDetails+11)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh10_1" oninput="changeDuTinh(10_1)" name="Detail[@(countDetails+11)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon10_1" name="Detail[@(countDetails+11)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td colspan="5">II. HOẠT ĐỘNG VẬN TẢI HÀNG HÓA</td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                11. Cơ sở có bao nhiêu phương tiện đang sử dụng để phục vụ cho
+                hoạt dộng vận tải hàng hóa trong [tháng trước] và dự tính [tháng
+                báo cáo]?
+                    <input type="hidden" id="stt11" name="Detail[@(countDetails+12)].Stt" value="11."/>
+                    <input type="hidden" name="Detail[@(countDetails+12)].TenCt" value="Cơ sở có bao nhiêu phương tiện đang sử dụng để phục vụ cho
+                    hoạt dộng vận tải hàng hóa trong [tháng trước] và dự tính [tháng
+                    báo cáo]?"/>
+            </td>
+            <td class="text-center">Cái
+                <input type="hidden" name="Detail[@(countDetails + 12)].Dvt" value="@(countDetails + 12) Cái"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc11" oninput="changeThthangTruoc(11)" name="Detail[@(countDetails+12)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh11" oninput="changeDuTinh(11)" name="Detail[@(countDetails+12)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon11" name="Detail[@(countDetails+12)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                12. Tổng trọng tải của tất cả các phương tiện trên là bao nhiêu?
+                    <input type="hidden" id="stt12" name="Detail[@(countDetails+13)].Stt" value="12."/>
+                    <input type="hidden" name="Detail[@(countDetails+13)].TenCt" value="Tổng trọng tải của tất cả các phương tiện trên là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Tấn
+                <input type="hidden" name="Detail[@(countDetails + 13)].Dvt" value="@(countDetails + 13) Tấn"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc12" oninput="changeThthangTruoc(12)" name="Detail[@(countDetails+13)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh12" oninput="changeDuTinh(12)" name="Detail[@(countDetails+13)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon12" name="Detail[@(countDetails+13)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>13. Cơ sở có vận chuyển hàng hóa ngoài nước không?</td>
+            <td></td>
+            <td class="text-center">
+                1. Có <input type="radio" name="chose2" id="13" />
+            </td>
+            <td class="text-center">
+                2. Không <input type="radio" name="chose2" id="13-1" />
+            </td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                14. Số vận chuyển hàng hóa trong [tháng trước] và [tháng báo
+                cáo] của cơ sở là bao nhiêu?
+                    <input type="hidden" id="stt14" name="Detail[@(countDetails+14)].Stt" value="14."/>
+                    <input type="hidden" name="Detail[@(countDetails+14)].TenCt" value="Số vận chuyển hàng hóa trong [tháng trước] và [tháng báo
+                    cáo] của cơ sở là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Chuyến
+                    <input type="hidden" name="Detail[@(countDetails + 14)].Dvt" value="@(countDetails + 14) Chuyến"/>
+            </td>
+            <td><input type="text" id="ThthangTruoc14" oninput="changeThthangTruoc(14)" name="Detail[@(countDetails+14)].ThthangTruoc" class="infomal" /></td>
+            <td><input type="text" id="DuTinh14" oninput="changeDuTinh(14)" name="Detail[@(countDetails+14)].DuTinh" class="infomal" /></td>
+            <td><input type="text" id="TongCongDon14" name="Detail[@(countDetails+14)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left changed2">
+            <td>
+                14.1 Trong đó, số chuyến vận chuyển ngoài nước là bao nhiêu?
+                (Hiển thị nếu câu 13=1 "CÓ")
+                    <input type="hidden" id="stt14_1" name="Detail[@(countDetails+15)].Stt" value="14.1."/>
+                    <input type="hidden" name="Detail[@(countDetails+15)].TenCt" value="Trong đó, số chuyến vận chuyển ngoài nước là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Chuyến
+                <input type="hidden" name="Detail[@(countDetails + 15)].Dvt" value="@(countDetails + 15) Chuyến"/>
+            </td>
+
+               <td><input type="text" id="ThthangTruoc14_1" oninput="changeThthangTruoc(14_1)" name="Detail[@(countDetails+15)].ThthangTruoc" class="infomal" /></td>
+               <td><input type="text" id="DuTinh14_1" oninput="changeDuTinh(14_1)" name="Detail[@(countDetails+15)].DuTinh" class="infomal" /></td>
+               <td><input type="text" id="TongCongDon14_1" name="Detail[@(countDetails+15)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                15. Khối lượng hàng hóa bình quân/chuyến trong [tháng trước] và
+                [tháng báo cáo] là bao nhiêu?
+                    <input type="hidden" id="stt15" name="Detail[@(countDetails+16)].Stt" value="15."/>
+                    <input type="hidden" name="Detail[@(countDetails+16)].TenCt" value="Khối lượng hàng hóa bình quân/chuyến trong [tháng trước] và
+                    [tháng báo cáo] là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Tấn
+                <input type="hidden" name="Detail[@(countDetails + 16)].Dvt" value="@(countDetails + 16) Tấn"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc15" oninput="changeThthangTruoc(15)" name="Detail[@(countDetails+16)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh15" oninput="changeDuTinh(15)" name="Detail[@(countDetails+16)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon15" name="Detail[@(countDetails+16)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                15.1 Trong đó, Khối lượng hàng hóa bình quân 1 chuyến vận chuyển
+                ngoài nước là bao nhiêu?
+                    <input type="hidden" id="stt15_1" name="Detail[@(countDetails+17)].Stt" value="15.1."/>
+                    <input type="hidden" name="Detail[@(countDetails+17)].TenCt" value="Trong đó, Khối lượng hàng hóa bình quân 1 chuyến vận chuyển
+                    ngoài nước là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Tấn
+                <input type="hidden" name="Detail[@(countDetails + 17)].Dvt" value="@(countDetails + 17) Tấn"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc15_1" oninput="changeThthangTruoc(15_1)" name="Detail[@(countDetails+17)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh15_1" oninput="changeDuTinh(15_1)" name="Detail[@(countDetails+17)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon15_1" name="Detail[@(countDetails+17)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                16. Số km bình quân 1 chuyến mà các phương tiện có vận chuyển
+                hàng hóa trong [tháng trước] và [tháng báo cáo] là bao nhiêu?
+                     <input type="hidden" id="stt16" name="Detail[@(countDetails+18)].Stt" value="16."/>
+                     <input type="hidden" name="Detail[@(countDetails+18)].TenCt" value="Số km bình quân 1 chuyến mà các phương tiện có vận chuyển
+                    hàng hóa trong [tháng trước] và [tháng báo cáo] là bao nhiêu?"/>
+            </td>
+            <td class="text-center">Km
+                <input type="hidden" name="Detail[@(countDetails + 18)].Dvt" value="@(countDetails + 18) km"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc16" oninput="changeThthangTruoc(16)" name="Detail[@(countDetails+18)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh16" oninput="changeDuTinh(16)" name="Detail[@(countDetails+18)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon16" name="Detail[@(countDetails+18)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>
+                16.1 Trong đó, số km bình quân 1 chuyến vận chuyển ngoài nước là
+                bao nhiêu?
+                    <input type="hidden" id="stt16_1" name="Detail[@(countDetails+19)].Stt" value="16.1."/>
+                    <input type="hidden" name="Detail[@(countDetails+19)].TenCt" value="Trong đó, số km bình quân 1 chuyến vận chuyển ngoài nước là
+                    bao nhiêu?"/>
+            </td>
+            <td class="text-center">Km
+                <input type="hidden" name="Detail[@(countDetails + 19)].Dvt" value="@(countDetails + 19) km"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc16_1" oninput="changeThthangTruoc(16_1)" name="Detail[@(countDetails+19)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh16_1" oninput="changeDuTinh(16_1)" name="Detail[@(countDetails+19)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon16_1" name="Detail[@(countDetails+19)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>17. KHỐI LƯỢNG HÀNG HÓA VẬN CHUYỂN
+                <input type="hidden" id="stt17" name="Detail[@(countDetails+20)].Stt" value="17."/>
+                <input type="hidden" name="Detail[@(countDetails+20)].TenCt" value="KHỐI LƯỢNG HÀNG HÓA VẬN CHUYỂN"/>
+            </td>
+            <td class="text-center">Tấn
+                <input type="hidden" name="Detail[@(countDetails + 20)].Dvt" value="@(countDetails + 20) Tấn"/>
+            </td>
+            <td><input type="text" id="ThthangTruoc17" oninput="changeThthangTruoc(17)" name="Detail[@(countDetails+20)].ThthangTruoc" class="infomal" /></td>
+            <td><input type="text" id="DuTinh17" oninput="changeDuTinh(17)" name="Detail[@(countDetails+20)].DuTinh" class="infomal" /></td>
+            <td><input type="text" id="TongCongDon17" name="Detail[@(countDetails+20)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left changed2">
+            <td>
+                17.1 TRONG ĐÓ, KHỐI LƯỢNG HÀNG HÓA VẬN CHUYỂN NGOÀI NƯỚC (Hiển
+                thị nếu câu 13=1 "CÓ")
+                    <input type="hidden" id="stt17_1" name="Detail[@(countDetails+21)].Stt" value="17.1."/>
+                    <input type="hidden" name="Detail[@(countDetails+21)].TenCt" value="TRONG ĐÓ, KHỐI LƯỢNG HÀNG HÓA VẬN CHUYỂN NGOÀI NƯỚC"/>
+            </td>
+            <td class="text-center">Tấn
+                <input type="text" name="Detail[@(countDetails + 21)].Dvt" value="@(countDetails + 21) Tấn"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc17_1" oninput="changeThthangTruoc(17_1)" name="Detail[@(countDetails+21)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh17_1" oninput="changeDuTinh(17_1)" name="Detail[@(countDetails+21)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon17_1" name="Detail[@(countDetails+21)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left">
+            <td>18. KHỐI LƯỢNG HÀNG HÓA LUÂN CHUYỂN
+                <input type="hidden" id="stt18" name="Detail[@(countDetails+22)].Stt" value="18."/>
+                <input type="hidden" name="Detail[@(countDetails+22)].TenCt" value="KHỐI LƯỢNG HÀNG HÓA LUÂN CHUYỂN"/>
+            </td>
+            <td class="text-center">Tấn.Km
+                <input type="hidden" name="Detail[@(countDetails + 22)].Dvt" value="@(countDetails + 22) Tấn.Km"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc18" oninput="changeThthangTruoc(18)" name="Detail[@(countDetails+22)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh18" oninput="changeDuTinh(18)" name="Detail[@(countDetails+22)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon18" name="Detail[@(countDetails+22)].TongCongDon" class="infomal" /></td>
+        </tr>
+        <tr class="text-left changed2">
+            <td>
+                18.1 TRONG ĐÓ, KHỐI LƯỢNG LUÂN CHUYỂN NGOÀI NƯỚC (Hiển thị nếu
+                câu 13=1 "CÓ")
+                    <input type="hidden" id="stt18_1" name="Detail[@(countDetails+23)].Stt" value="18.1."/>
+                    <input type="hidden" name="Detail[@(countDetails+23)].TenCt" value="TRONG ĐÓ, KHỐI LƯỢNG LUÂN CHUYỂN NGOÀI NƯỚC"/>
+            </td>
+            <td class="text-center">Tấn.Km
+                <input type="hidden" name="Detail[@(countDetails + 23)].Dvt" value="@(countDetails + 23) Tấn.Km"/>
+            </td>
+                <td><input type="text" id="ThthangTruoc18_1" oninput="changeThthangTruoc(18_1)" name="Detail[@(countDetails+23)].ThthangTruoc" class="infomal" /></td>
+                <td><input type="text" id="DuTinh18_1" oninput="changeDuTinh(18_1)" name="Detail[@(countDetails+23)].DuTinh" class="infomal" /></td>
+                <td><input type="text" id="TongCongDon18_1" name="Detail[@(countDetails+23)].TongCongDon" class="infomal" /></td>
+        </tr>
+        countDetails++;
+    }
+          </tbody>
+          <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $('.infomal').on('blur', function () {
+    if (checkNumber(this.value)) {
+      const value = this.value.replace(/,/g, '');
+      this.value = parseFloat(value).toLocaleString('en-US', {
+        style: 'decimal',
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+      })
+    }
+  }); 
+    $(document).ready(function () {
+        $('tr[class*="changed3_"').hide(this.check);
+    });
+    $('input[id*="3_"]:radio').click(function () {
+        var idInput = $(this).attr('id');
+        var y = idInput.substring(2, idInput.length);
+        $('input#inputText' + y).val('Cơ sở bán [NGÀNH CHỌN MẪU] tại đâu?Bán tại siêu thị mini, cửa hàng tiện ích và các địa điểm khác');
+        var myNewValue = "";
+        $('#TongCongDon'+(y-1)+'_1').val("");
+        $('#DuTinh'+(y-1)+'_1').val("");
+        $('#ThthangTruoc'+(y-1)+'_1').val("");
+        //
+        $('#TongCongDon'+(y-1)+'_1').prop('required',true);
+        $('#DuTinh'+(y-1)+'_1').prop('required',true);
+        $('#ThthangTruoc'+(y-1)+'_1').prop('required',true);
+        //
+        $('#DuTinh' +(y-1)+ '_1').attr({ "max": $('#DuTinh' + (y-1)).val() });
+        $('#ThthangTruoc' +(y-1)+ '_1').attr({ "max": $('#ThthangTruoc' + (y-1)).val() });
+        $('.changed3_' + y).show();
+    });
+    $('input[id*="3-1_"]:radio').click(function () {
+        var idInput = $(this).attr('id');
+        var y = idInput.substring(4, idInput.length);
+        $('input#inputText' + y).val('Cơ sở bán [NGÀNH CHỌN MẪU] tại đâu?Bán tại siêu thị mini, cửa hàng tiện ích');
+        var myNewValue = "999,999,999.00";
+        $('#TongCongDon'+(y-1)+'_1').attr('value',myNewValue);
+        $('#DuTinh'+(y-1)+'_1').attr('value',myNewValue);
+        $('#ThthangTruoc'+(y-1)+'_1').attr('value',myNewValue);  
+        //
+        $('#TongCongDon'+(y-1)+'_1').removeAttr('required');
+        $('#DuTinh'+(y-1)+'_1').removeAttr('required');
+        $('#ThthangTruoc'+(y-1)+'_1').removeAttr('required');
+         $('#DuTinh' + (y-1) + '_1').attr({ "max": ""});
+         $('#ThthangTruoc' + (y-1) + '_1').attr({ "max": ""});
+        $('.changed3_' + y).hide();
+    });
+    $('input[id*="3-2_"]:radio').click(function () {
+        var idInput = $(this).attr('id');
+        var y = parseInt(idInput.substring(4, idInput.length));
+        $('input#inputText' + y).val('Cơ sở bán [NGÀNH CHỌN MẪU] tại đâu?Bán tại các địa điểm khác');
+        var myNewValue = "999,999,999.00";
+        $('#TongCongDon'+(y-1)+'_1').attr('value',myNewValue);
+        $('#DuTinh'+(y-1)+'_1').attr('value',myNewValue);
+        $('#ThthangTruoc'+(y-1)+'_1').attr('value',myNewValue);
+        //
+        $('#TongCongDon'+(y-1)+'_1').removeAttr('required');
+        $('#DuTinh'+(y-1)+'_1').removeAttr('required');
+        $('#ThthangTruoc'+(y-1)+'_1').removeAttr('required');
+        $('#DuTinh' + (y-1) + '_1').attr({ "max": ""});
+        $('#ThthangTruoc' + (y-1) + '_1').attr({ "max": ""});
+        $('.changed3_' + y).hide();
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script type="text/javascript">
+        var pattern = /^\d{5}$/;
+    $('input#macoso').keyup(function() {
+        if ($('input#macoso').val().match(pattern)) {        
+          $('input#macoso').focusout(function(){
+          });
+          var str = $('input#macoso').val();
+          $.ajax({
+            type: 'POST',
+            url: '/loadMaster2CN',
+            data: "ms=" + $('input#macoso').val(),
+            success: function (result) {
+              $('#ThongTinDoanhNghiepGroup').replaceWith(result);
+              if ($('label.P-name b').text().includes('2.1')) {
+                  $.ajax({
+                    type: 'POST',
+                    url: '/loaddata_21B',
+                    data: "ms=" +str,
+                    success: function (result) {
+                      $('#table-data').replaceWith(result);
+                    },
+                    error: function (result) {
+                      console.log('Mã cơ sở không tồn tại!');
+                    }
+                  });
+                }
+            },
+            error: function (result) {
+              alert('Mã cơ sở không tồn tại!');
+            }
+          });
+        } else {
+        }
+    });
+      </script>

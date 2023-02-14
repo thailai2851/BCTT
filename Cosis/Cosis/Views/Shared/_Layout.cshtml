@@ -1,0 +1,230 @@
+﻿@{
+    FormCosisContext context = new FormCosisContext();
+    List<LoaiPhieu> getLoaiPhieu(){
+        if (User.IsInRole("001"))
+        {
+            return context.LoaiPhieu.ToList();
+        }
+        if (User.IsInRole("002"))
+        {
+            ThongTinDoanhNghiep tt = context.ThongTinDoanhNghiep.FirstOrDefault(x => x.TaiKhoan == User.Identity.Name);
+            return context.LoaiPhieu.Where(x=>x.MaLoaiPhieu==tt.MaLoaiPhieu).ToList();
+        }
+        ThongTinCaThe td = context.ThongTinCaThe.FirstOrDefault(x => x.TaiKhoan == User.Identity.Name);
+        return context.LoaiPhieu.Where(x => x.MaLoaiPhieu == td.MaLoaiPhieu).ToList();
+    }
+    LoaiPhieu getThongTinDoanhNghiep(){
+        ThongTinDoanhNghiep tt = context.ThongTinDoanhNghiep.FirstOrDefault(x => x.TaiKhoan == User.Identity.Name);
+        return context.LoaiPhieu.FirstOrDefault(x => x.MaLoaiPhieu == tt.MaLoaiPhieu);
+    }
+    LoaiPhieu getThongTinCaThe()
+    {
+        ThongTinCaThe tt = context.ThongTinCaThe.FirstOrDefault(x => x.TaiKhoan == User.Identity.Name);
+        return context.LoaiPhieu.FirstOrDefault(x => x.MaLoaiPhieu == tt.MaLoaiPhieu);
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link
+      rel="stylesheet"
+      href="~/assets/bootstrap-4.5.3-dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="~/assets/main.css" />
+        <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="~/assets/DataTables-1.13.1/datatables.min.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="~/assets/index.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/assets/image/logo.png" />
+  </head>
+<body id="body">
+    <div id="toast" class="toasts col-8" style="position: fixed; top: 50px; right: 30px; z-index: 3;">
+      <div class="toast-header">
+
+        <strong style="margin:auto;color:#28a745">Thông báo</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        @TempData["ThongBao"]
+      </div>
+    </div>
+    <!-- Header -->
+    <div class="header">
+      <div class="banner">
+          <img src="/assets/image/banner.jpg" alt="">
+        </div>
+      <nav class="navbar navbar-expand-sm bg-info navbar-dark" style="padding: 0">
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav">
+            <li style="width:40px">
+              <a class="nav-link text-white" href="/Home/Index"><i class="bi bi-house"></i></a>
+            </li>
+                    @if (User.IsInRole("001")) {
+                        <li class="nav-item">
+                            Thương mại
+                                <div class="header-option">
+                                <div class="nav-option">
+                                      <a href="/Form1_1/Index" class="nav-link text-white option">Doanh nghiệp
+                                  </a>
+                                      <a href="/Form2_1/Index" class="nav-link text-white option">Cá thể
+                                  </a>
+                                </div>
+                              </div>
+                        </li>
+                        <li class="nav-item">
+                               <a class="nav-link text-white" href="/Form1_2/Index">Dịch vụ</a>
+                            </li>
+                        <li class="nav-item">
+                            Vận tải - Kho bãi
+                          <div class="header-option">
+                            <div class="nav-option">
+                                  <a href="/Form1_3/Index" class="nav-link text-white option">Doanh nghiệp
+                              </a>
+                                  <a href="/Form2_3/Index" class="nav-link text-white option">Cá thể
+                              </a>
+                            </div>
+                          </div>
+                     </li>
+                         <li class="nav-item">
+                                 <a class="nav-link text-white" href="/Form1_4/Index">Bất động sản - DV khác</a>
+                         </li>
+            }else{
+                @if (User.IsInRole("002")){
+                     <li class="nav-item">
+                                <a class="nav-link text-white option" href="/@getThongTinDoanhNghiep().MaLoaiPhieu/Index">@getThongTinDoanhNghiep().TenLoaiPhieu</a>
+                     </li>
+                }else{
+                         <li class="nav-item">
+                                <a class="nav-link text-white option" href="/@getThongTinCaThe().MaLoaiPhieu/Index">@getThongTinCaThe().TenLoaiPhieu</a>
+                     </li>
+                }
+            }
+                    @if (User.IsInRole("001"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/ThongKe">Tiến độ</a>
+            </li>
+            }
+                <li class="nav-item">
+                    Hướng dẫn
+                    <div class="header-option">
+                        <div class="nav-option">
+                            <a class="nav-link text-white option" style="padding: 5px 0 5px 15px;" href="/HuongDan">Trợ giúp</i></a>
+                        </div>
+                    </div>
+                </li>
+          </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar" style="justify-content: flex-end; padding-right: 15px">
+          <a class="nav-link text-white" href="/logout">@User.Identity.Name - Đăng xuất</a>
+        </div>
+      </nav>
+    </div>
+
+    <div id="bodyDiv" class="container">
+            @RenderBody()
+    </div>
+  <!-- footer -->
+    <footer class="footer  text-center p-2">
+      <label for=""
+        ><b style="color:white;"
+          >Phát triển bởi Trung tâm Tin học Thống kê khu vực II. 54A Nơ Trang
+          Long, P.14, Bình Thạnh, TP.HCM. ĐT: (028) 35515433 - 33515438</b
+        >
+      </label>
+    </footer>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+   <script src="~/assets/DataTables-1.13.1/datatables.min.js"></script>
+  <script type="text/javascript">
+    var strMS = "";
+    function AddMS(item){
+        strMS += item;
+    }
+
+    $(".MS").keyup(function (e) {
+      if (this.value.length === this.maxLength) {
+        var next = $(this).data("next");
+        if (next === 13) {
+        } else {
+          var check = document.getElementById("n" + next).value;
+          if (check !== "") {
+          } else {
+            document.getElementById("n" + next).focus();
+          }
+        }
+      }
+    });
+    $("#YT9").change(function () {
+      if (this.checked) {
+        $('#comment').prop('disabled', false);
+      } else {
+        $('#comment').prop('disabled', true);
+      }
+    });
+    $("#5").click(function () {
+      $(".changed1").toggle(this.checked);
+    });
+    $("#5-1").click(function () {
+      $(".changed1").toggle(this.check);
+    });
+    $("#13").click(function () {
+      $(".changed2").toggle(this.checked);
+    });
+    $("#13-1").click(function () {
+      $(".changed2").toggle(this.check);
+    });
+
+        $(document).ready(function () 
+        {
+      $.fn.DataTable.ext.pager.numbers_length = 5;
+      $("#example").dataTable({
+        pagingType: "simple_numbers",
+        bLengthChange: false,
+        bInfo: false,
+        pageLength: 9,  
+        language: {
+          paginate: {
+            previous: "Trước",
+            next: "Sau",
+          },
+          searchPlaceholder: "Nhập cơ sở cần tìm",
+          search: "",
+        },
+      });
+        }
+    );
+    $(document).ready(function(){
+        let kq = "@User.IsInRole("001")";
+        if(kq=="True"){
+            $('#bodyDiv').addClass("col-lg-12");
+            $('#form').addClass("form");
+            $('#tableQLTT').css("display","block");
+            $('.MS').prop('readonly', false);
+        }else{
+            $('#tableQLTT').css("display","none");
+            $('#form').addClass("form1");
+            $('.MS').prop('readonly', true);
+        }
+        var check = '@Html.Raw(TempData["ThongBao"]!=null)';
+        if(check=="True"){
+        var x = document.getElementById("toast");
+          x.classList.add("show");
+          setTimeout(function(){ x.className = x.className.replace("show", "toasts"); }, 5000);
+        }
+        });
+  </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

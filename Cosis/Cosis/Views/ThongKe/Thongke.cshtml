@@ -1,0 +1,185 @@
+﻿@{
+    FormCosisContext context = new FormCosisContext();
+    List<LoaiPhieu> getListLoaiPhieu(){
+        return context.LoaiPhieu.ToList();
+    }
+}
+
+      <div class="container-main col-lg-12">
+        <div class="head-container">
+            <div class="form-group text-center">       
+              <h5 class="TK-title"><b>Thống kê tiến độ điều tra cơ sở sản xuất kinh doanh</b></h5>
+            </div>
+            <div class="group-dropdown">
+                <div class="drop-up">
+                    <div class="group-drop">
+                        <div class="choose-day">
+                            <div class="choose-month">
+                              <label for="">Tháng:</label>
+                              <select style="height:100%" id="thang">
+                                <option value="01">01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                              </select>
+                            </div>
+                            <div class="choose-year">
+                              <label for="">Năm:</label>
+                              <input id="nam" value="@DateTime.Now.Year" style="height:100%" type="text" size="1"/>
+                            </div>
+                          </div>
+                    </div>
+
+                    <div class="group-drop">
+                        <label for="tinh">Loại phiếu:</label>
+                        <select id="loaiPhieu" class="TK-drop">
+                            <option value="0">Tất cả</option>
+                            @*@foreach(LoaiPhieu l in getListLoaiPhieu()){
+                                <option value="@l.MaLoaiPhieu">@l.MaLoaiPhieu</option>
+                            }*@
+                            <option value="_1">Thương mại</option>
+                            <option value="_2">Dịch vụ</option>
+                            <option value="_3">Vận Tải - kho bãi</option>
+                            <option value="_4">Bất động sản - DV khác</option>
+                        </select>
+                    </div>
+                    <div class="group-drop">
+                        <label for="tinh">Cấp:</label>
+                        <select id="cap" class="TK-drop">Chọn tỉnh</select>
+                    </div>
+                    
+                </div>
+                <div class="drop-bot">
+                    <div class="group-drop">
+                        <label for="tinh">Tỉnh/Thành phố:</label>
+                        <select name="" id="city" class="TK-drop">
+                           <option value="0">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="group-drop">
+                        <label for="tinh">Quận/huyện:</label>
+                        <select name="" id="district" class="TK-drop">
+                            <option value="0">Tất cả</option>
+                        </select>
+                    </div>
+                    <div class="group-drop">
+                        <label for="tinh">Xã/Phường: </label>
+                        <select name="" id="ward" class="TK-drop">
+                            <option value="0">Tất cả</option>
+                        </select>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="group-button">
+                <button class="TK-btn btn btn-primary mr-1" id="openList">Mở danh sách</button>
+                <button class="TK-btn btn btn-primary" id="downloadExcel">Xuất Exel</button>
+            </div>
+        </div>
+        <div id="list" class="body-container">
+            <table class="table-TK table table-bordered table-striped table-hover text-center">
+                <thead>
+                    <tr>
+                        <th colspan="3"></th>
+                        <th colspan="4">Doanh nghiệp</th>
+                        <th colspan="4">Cơ sở</th>
+                    </tr>
+                    <tr>
+                        <th>Stt</th>
+                        <th>Ma</th>
+                        <th>Tên</th>
+                        <th>Tổng</th>
+                        <th>Đã làm</th>
+                        <th>Chưa làm</th>
+                        <th>Tỉ lệ hoàn thành</th>
+                        <th>Tổng</th>
+                        <th>Đã làm</th>
+                        <th>Chưa làm</th>
+                        <th>Tỉ lệ hoàn thành</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+var citis = document.getElementById("city");
+var districts = document.getElementById("district");
+var wards = document.getElementById("ward");
+var Parameter = {
+  url: "https://localhost:" + window.location.port + "/assets/DiaChi.json",
+  method: "GET", 
+  responseType: "application/json", 
+};
+var promise = axios(Parameter);
+promise.then(function (result) {
+  renderCity(result.data);
+});
+function renderCity(data) {
+  for (const x of data) {
+    citis.options[citis.options.length] = new Option((citis.options.length-1) + ". " + x.Name, x.Id);
+  }
+  citis.onchange = function () {
+    district.length = 1;
+    ward.length = 1;
+    if(this.value != ""){
+      const result = data.filter(n => n.Id === this.value);
+      for (const k of result[0].Districts) {
+        district.options[district.options.length] = new Option((district.options.length-1)+". "+k.Name, k.Id);
+      }
+    }
+  };
+  district.onchange = function () {
+    ward.length = 1;
+    const dataCity = data.filter((n) => n.Id === citis.value);
+    if (this.value != "") {
+      const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+      for (const w of dataWards) {
+        wards.options[wards.options.length] = new Option((wards.options.length-1) + ". " +w.Name, w.Id);
+      }
+    }
+  };
+}
+
+$('#openList').on('click',function(){
+    var thang = $('#thang').val();
+    var nam = $('#nam').val();
+    var loaiPhieu = $('#loaiPhieu').val();
+    var city = $('#city').val();
+    var district = $('#district').val();
+    var ward = $('#ward').val();
+    
+    $.ajax({
+                type: 'POST',
+                url: '/openList',
+                data: "thang="+thang+"&nam="+nam+"&loaiPhieu="+loaiPhieu+"&city="+city+"&district="+district+"&ward="+ward,
+                success: function (result) {
+                    $('#list').replaceWith(result);
+                },
+               error: function (result) {
+               alert('Mã số thuế không tồn tại!');
+             }
+            });
+});
+
+$('#downloadExcel').on('click',function(){
+    var thang = $('#thang').val();
+    var nam = $('#nam').val();
+    var loaiPhieu = $('#loaiPhieu').val();
+    var city = $('#city').val();
+    var district = $('#district').val();
+    var ward = $('#ward').val();
+
+    location.href = "downloadExcel?" + "thang="+thang+"&nam="+nam+"&maLoaiPhieu="+loaiPhieu+"&maT="+city+"&maH="+district+"&maX="+ward
+});
+</script>

@@ -1,0 +1,38 @@
+﻿@{
+    FormCosisContext context = new FormCosisContext();
+    List<ThongTinCaThe> getTable()
+    {
+        string s = ViewBag.LoaiPhieu;
+        return context.ThongTinCaThe.Where(x => x.MaLoaiPhieu == s).ToList();
+    }
+    int count(string macs, string thang, string nam)
+    {
+        return context.Master.Where(x => x.MaCoSo == macs && x.ThangDuTinh == thang && x.Nam == nam).Count();
+    }
+}
+          <tbody id="tBody">
+    @foreach (ThongTinCaThe m in @getTable())
+    {
+        @if (count(m.MaCoSo, ViewBag.thang, ViewBag.nam) > 0)
+        {
+                                <tr style="background-color: rgb(0, 160, 255); cursor:pointer;" onclick="doiPhieu('@m.MaCoSo')">
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">@m.MaSoThue</td>
+                                    <td class="text-center">@m.MaSoThue2</td>
+                                    <td class="text-center">@m.MaCoSo</td>
+                                    <td class="text-center">@m.TenCoSo</td>
+                                </tr>
+        }
+        else
+        {
+                                <tr style="cursor:pointer;" onclick="doiPhieu('@m.MaCoSo')">
+                                    <td class="text-center">1</td>
+                                    <td class="text-center">@m.MaSoThue</td>
+                                    <td class="text-center">@m.MaSoThue2</td>
+                                    <td class="text-center">@m.MaCoSo</td>
+                                    <td class="text-center">@m.TenCoSo</td>
+                                </tr>
+        }
+
+    }
+          </tbody>

@@ -1,0 +1,485 @@
+.toasts {
+    flex-basis: 350px;
+    max-width: 350px;
+    font-size: 0.875rem;
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 10%);
+    visibility: hidden;
+    border-radius: 0.25rem;
+}
+
+#toast.show {
+    visibility: visible;
+    flex-basis: 350px;
+    max-width: 350px;
+    font-size: 0.875rem;
+    background-color: white;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 10%);
+    border-radius: 0.25rem;
+}
+
+.adress-detail {
+    width: 102%;
+}
+
+input[type="text"] {
+    background-color: #f6f6f6;
+    color: #0d0d0d;
+}
+
+    input[type="text"]:focus {
+        background-color: #fff;
+        border-bottom: 3px solid #000000;
+    }
+
+select {
+    background-color: #f6f6f6;
+    color: #0d0d0d;
+}
+
+    select:focus {
+        background-color: #fff;
+        border-bottom: 3px solid #000000;
+    }
+
+.MS {
+    border: 1px solid #000000;
+}
+
+.MN {
+    border: 1px solid #000000;
+}
+
+body{
+    font-family: VnArial;
+}
+
+.banner {
+  display: flex;
+  width: auto;
+  height: auto;
+  flex-direction: column;
+}
+table input {
+    border: none !important;
+    border-radius: 0 !important;
+    text-indent: 0 !important;
+}
+.choose-day {
+    display: flex;
+    justify-content: flex-end;
+    border-radius: 10px;
+    text-indent: 15px;
+}
+.choose-title {
+  margin: 10px 10px 10px 10px;
+}
+
+.choose-year {
+  margin: 0 25px 0 25px;
+}
+.tenphieu {
+  display: flex;
+  flex-direction: column;
+}
+.m-title {
+  background: #ffe15d;
+  border-top: 2px solid #ff4800;
+  border-bottom: 2px solid #ff4800;
+  color: black;
+}
+.form {
+  border: 2px solid #ff4800;
+  margin: 10px 0 10px 0;
+  background: #fff3bd;
+  height: 660px;
+  overflow: scroll;
+  width: 74%;
+}
+.form1 {
+  border: 2px solid #ff4800;
+  margin: 10px 0 10px 0;
+  background: #fff3bd;
+}
+.form-QLTT {
+  border: 2px solid #ff4800;
+  margin: 10px 0 10px 0;
+  width: 26%;
+  height: 660px;
+  position: relative;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+.title {
+  margin: 10px 0 10px 0;
+}
+.title-first {
+  color: rgb(168, 0, 0);
+}
+.title-last {
+  color: blue;
+}
+.group-radio-btn {
+  background-image: linear-gradient(to right, white, rgb(0, 160, 255));
+  font-size: 15px;
+  font-weight: bold;
+}
+.text {
+  color: rgb(215, 70, 0);
+}
+.tab-title {
+  font-size: 14px;
+}
+.table td {
+  padding: 0;
+}
+.th4 {
+  width: 33%;
+}
+.th1 {
+  width: 22%;
+}
+.footer-QLTT {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.footer-info {
+  width: 50%;
+  margin-left: 10px;
+}
+.scroll-footer {
+  width: 50%;
+  overflow-x: hidden;
+  margin-bottom: -10px;
+}
+.pagination-title {
+  font-size: 14px;
+}
+.MSTP-info {
+  display: flex;
+  justify-content: space-between;
+}
+.mstp {
+  display: flex;
+  margin-right: 15px;
+}
+.table-bordered th,
+.table-bordered td,
+.table thead th {
+  border: 1px solid #000000;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgb(240 240 75 / 50%);
+}
+
+.infoma {
+    border: none;
+    border-bottom: 1px solid #000000;
+    width: 70%;
+    border-radius: 5px;
+    text-indent: 15px;
+}
+
+table .infomal {
+    border: none;
+    border-bottom: 1px solid #000000;
+    width: 100%;
+    text-align: right;
+}
+.infomal {
+    border: none;
+    border-bottom: 1px solid #000000;
+    width: 100%;
+    text-align: right;
+}
+.row {
+  margin: 5px 0 5px 20px;
+}
+.adress {
+  margin-left: 20px;
+}
+.adress-detail .lb-info {
+  margin-right: -20px;
+}
+.infoma-nganh {
+  border: none;
+  border-bottom: 1px solid #000000;
+  width: 45%;
+  margin-bottom: 0.5rem;
+  overflow:auto;
+}
+input[type="text"]:focus {
+  outline: none;
+}
+.nganh-ct {
+  width: 80%;
+}
+.nganh-lb {
+  width: 20%;
+}
+.nganh-ct label {
+  margin: 0;
+}
+table .infoma {
+  border: none;
+  border-bottom: 1px solid #000000;
+  width: 100%;
+}
+
+.P-name {
+  margin-left: 40px;
+}
+.loaihinh {
+  display: flex;
+  margin: 20px;
+}
+.MNHD {
+  margin: 0 40px 0 30px;
+}
+.lb-info {
+  width: 270px;
+}
+.checkbox,
+.checkbox-tt {
+  display: flex;
+  margin-left: 150px;
+  flex-direction: column;
+}
+
+input[type="radio"] {
+  margin: 5px;
+  border: 0px;
+  width: 100%;
+  height: 1.3em;
+}
+
+.YTAH {
+  display: flex;
+}
+.YTAH-tt,
+.YTAH-check {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+.YTAH-check {
+  margin-left: 318px;
+}
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 6px;
+}
+.uname-info {
+  border-top: 2px solid #ff4800;
+  border-bottom: 2px solid #ff4800;
+  padding: 5px;
+}
+#comment {
+  display: flex;
+  width: 90%;
+  margin-left: 5%;
+  border: 1px solid #000000;
+}
+.uname-lb {
+  width: 180px;
+}
+
+.group-btn {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+}
+.NganhCM {
+  width: 10%;
+}
+.Chitieu {
+  width: 15%;
+}
+.Money {
+  width: 22%;
+}
+.DVT {
+  width: 9%;
+}
+.btn-add {
+  border: none;
+  visibility: hidden;
+}
+
+.DMNganh:hover .btn-add {
+  visibility: visible;
+}
+
+.changed1 {
+  display: none;
+}
+.changed2 {
+  display: none;
+}
+.changed3 {
+  display: none;
+}
+.p-1 {
+  text-indent: 30px;
+  vertical-align: center;
+}
+.p-1-1 {
+  text-indent: 45px;
+}
+.table td {
+  vertical-align: middle;
+}
+li {
+  border-right: 1px solid snow;
+  width: 200px;
+}
+li:hover {
+  background: #0a7484;
+}
+li:hover .header-option {
+  display: block;
+}
+.nav-item {
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  color: white;
+  position: relative;
+  justify-content: space-around;
+}
+.header-option {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 3;
+  width: 100%;
+  display: none;
+}
+.nav-option {
+  background: #17a2b8;
+}
+.nav-option li {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  border: #f6f6f6;
+  width: 100%;
+}
+.nav-option .option {
+  padding: 5px 0 5px 15px;
+  display: flex;
+  align-items: center;
+  list-style: none;
+  border: #f6f6f6;
+  width: 100%;
+  border-top: 1px solid snow;
+  position: relative;
+}
+.option:hover {
+  background: #0a7484;
+}
+.option:hover .header-option1 {
+  display: flex;
+  flex-direction: column;
+}
+.header-option1 {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  width: 100%;
+}
+.option1 {
+  background: #17a2b8;
+
+  border-top: 1px solid;
+  border-left: 1px solid;
+  width: 100%;
+  padding: 5px 0 5px 15px;
+  color: white;
+  text-decoration: none;
+}
+.option1:hover {
+  background: #0a7484;
+  color: white;
+  text-decoration: none;
+}
+.footer {
+  background: #17a2b8;
+}
+.logo {
+  position: absolute;
+  width: 118px;
+  height: 118px;
+  top: 0;
+}
+/*Thống kê css*/
+.TK-title {
+  color: #893b03;
+  justify-content: center;
+  margin: 20px;
+}
+.head-container {
+  display: block;
+  width: 100%;
+}
+.drop-up {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 20px;
+}
+.drop-bot {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 20px;
+}
+.group-drop {
+  display: flex;
+  width: 25%;
+  justify-content: flex-end;
+}
+.TK-drop {
+  width: 65%;
+  margin-left: 10px;
+}
+.group-button {
+  padding-bottom: 10px;
+}
+.container-main {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.table-TK {
+  width: 100%;
+  margin: 0;
+}
+.table-TK thead {
+  background: #8aedfc;
+}
+.table-TK thead {
+  position: sticky;
+  top: 0;
+}
+
+.body-container {
+  overflow: auto;
+  height: 450px;
+  margin-bottom: 15px;
+}
+.body-container .table-striped tbody tr:nth-of-type(odd) {
+  background-color: rgba(212, 206, 206, 0.838);
+}

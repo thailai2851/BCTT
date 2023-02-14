@@ -1,0 +1,91 @@
+﻿@{
+    FormCosisContext context = new FormCosisContext();
+    List<ThongTinDoanhNghiep> getTable()
+    {
+        string s = ViewBag.LoaiPhieu;
+        return context.ThongTinDoanhNghiep.Where(x => x.MaLoaiPhieu == s).ToList();
+    }
+    int count(string mst1, string mst2, string thang, string nam)
+    {
+        int s = context.Master.Where(x => x.MaSoThue == mst1 && x.MaSoThue2 == mst2 && x.ThangDuTinh == thang && x.Nam == nam).Count();
+        return s;
+    }
+}
+<div id="tableQLTT" class="form-QLTT" style="overflow: scroll;">
+        <div class="head-group">
+          <div class="title text-center">
+            <h5 class="title-first"><b>DANH SÁCH CƠ SỞ</b></h5>
+            <label class="title-last"
+              ><i>Nhấn vào dòng cơ sở để nhập tin</i></label
+            >
+          </div>
+          <div class="group-radio-btn row">
+            <div class="check-form">
+              <i class="bi bi-circle-fill" style="color: rgb(0, 160, 255)"></i>
+              <label class="text-primary">Đã điều tra</label>
+            </div>
+            <div class="check-form" style="margin-left: 5px">
+              <i class="bi bi-circle-fill" style="color: white"></i>
+              <label>Chưa điều tra</label>
+            </div>
+            <div class="check-form" style="margin-left: 5px">
+              <i class="bi bi-circle-fill" style="color: rgb(215, 70, 0)"></i>
+              <label class="text">Không điều tra</label>
+            </div>
+          </div>
+        </div>
+        <table id="example" class="table table-bordered table-hover" style="max-height: 100%;">
+          <thead>
+            <tr class="text-center tab-title" style="background-color: #fff3bd;">
+              <th class="th1">Điều tra</th>
+              <th class="th2">Mã ĐB</th>
+              <th class="th3">Cơ sở số</th>
+              <th class="th4">Tên cơ sở</th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (ThongTinDoanhNghiep m in getTable())
+            {
+                @if (count(m.MaSoThue, m.MaSoThue2, ViewBag.thang, ViewBag.nam) > 0)
+                {
+                      <tr style="background-color: rgb(0, 160, 255); cursor:pointer;" onclick="doiPhieu('@m.MaSoThue','@m.MaSoThue2')">
+                          <td class="text-center">1</td>
+                          <td class="text-center">@m.MaSoThue</td>
+                          <td class="text-center">@m.MaSoThue2</td>
+                          <td class="text-center">@m.TenDoanhNghiep</td>
+                    </tr>
+                }
+                else
+                {
+                       <tr style="cursor:pointer;" onclick="doiPhieu('@m.MaSoThue','@m.MaSoThue2')">
+                          <td class="text-center">1</td>
+                          <td class="text-center">@m.MaSoThue</td>
+                          <td class="text-center">@m.MaSoThue2</td>
+                          <td class="text-center">@m.TenDoanhNghiep</td>
+                       </tr>
+                }
+            }
+          </tbody>
+                  </table>
+                  <script>
+                      $(document).ready(function () 
+        {
+      $.fn.DataTable.ext.pager.numbers_length = 5;
+      $("#example").dataTable({
+        pagingType: "simple_numbers",
+        bLengthChange: false,
+        bInfo: false,
+        pageLength: 9,  
+        language: {
+          paginate: {
+            previous: "Trước",
+            next: "Sau",
+          },
+          searchPlaceholder: "Nhập cơ sở cần tìm",
+          search: "",
+        },
+      });
+        }
+    );
+                  </script>
+      </div>
